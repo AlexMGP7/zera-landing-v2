@@ -113,7 +113,10 @@ const {
   
   <!-- Mouse spotlight -->
   <div id="mouse-spotlight" class="fixed inset-0 z-[55] pointer-events-none opacity-0 transition-opacity duration-500" style="background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,77,0,0.06), transparent 40%);"></div>
-  
+
+  <!-- Circuit board animated background -->
+  <canvas id="circuit-canvas" class="fixed inset-0 pointer-events-none" style="z-index: 1; opacity: 0.35;"></canvas>
+
   <slot />
   
   <script>
@@ -309,6 +312,184 @@ const {
       document.querySelectorAll('[data-tilt]').forEach((el) => {
         initTilt(el as HTMLElement);
       });
+    })();
+  </script>
+
+  <script>
+    // ── Circuit Board Animated Background ─────────────────────────────────
+    // Draws a living PCB circuit pattern across the full page.
+    // Nodes pulse, traces light up sequentially, energy packets travel along paths.
+    (function() {
+      const canvas = document.getElementById('circuit-canvas') as HTMLCanvasElement;
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d')!;
+
+      // Config
+      const ORANGE = 'rgba(255, 120, 20,';
+      const GRID = 55;          // grid cell size in px
+      const NODE_PROB = 0.32;   // probability a grid intersection has a node
+      const TRACE_PROB = 0.60;  // probability a connection between nodes exists
+      const PACKET_COUNT = 28;  // number of energy packets traveling
+
+      let W = 0, H = 0;
+      let nodes: {x:number; y:number; pulse:number; pulseDir:number; brightness:number}[] = [];
+      let traces: {ax:number; ay:number; bx:number; by:number; lit:number; litDir:number}[] = [];
+      let packets: {traceIdx:number; t:number; speed:number; size:number}[] = [];
+
+      function resize() {
+        W = window.innerWidth;
+        H = document.documentElement.scrollHeight;
+        canvas.width = W;
+        canvas.height = H;
+        buildCircuit();
+      }
+
+      function buildCircuit() {
+        nodes = [];
+        traces = [];
+        packets = [];
+
+        // Build grid nodes
+        const cols = Math.ceil(W / GRID) + 1;
+        const rows = Math.ceil(H / GRID) + 1;
+        const grid: (number | null)[][] = [];
+
+        for (let r = 0; r < rows; r++) {
+          grid[r] = [];
+          for (let c = 0; c < cols; c++) {
+            if (Math.random() < NODE_PROB) {
+              grid[r][c] = nodes.length;
+              nodes.push({
+                x: c * GRID + (Math.random() - 0.5) * 12,
+                y: r * GRID + (Math.random() - 0.5) * 12,
+                pulse: Math.random(),
+                pulseDir: Math.random() > 0.5 ? 1 : -1,
+                brightness: 0.3 + Math.random() * 0.5,
+              });
+            } else {
+              grid[r][c] = null;
+            }
+          }
+        }
+
+        // Build traces: connect adjacent nodes (horizontal + vertical + diagonal)
+        const dirs = [[0,1],[1,0],[1,1],[1,-1]];
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            if (grid[r][c] === null) continue;
+            const a = nodes[grid[r][c]!];
+            for (const [dr, dc] of dirs) {
+              const nr = r + dr, nc = c + dc;
+              if (nr >= rows || nc < 0 || nc >= cols) continue;
+              if (grid[nr][nc] === null) continue;
+              if (Math.random() > TRACE_PROB) continue;
+              const b = nodes[grid[nr][nc]!];
+              traces.push({
+                ax: a.x, ay: a.y, bx: b.x, by: b.y,
+                lit: Math.random(),
+                litDir: Math.random() > 0.5 ? 0.004 : -0.004,
+              });
+            }
+          }
+        }
+
+        // Spawn energy packets
+        for (let i = 0; i < PACKET_COUNT; i++) {
+          if (traces.length === 0) break;
+          packets.push({
+            traceIdx: Math.floor(Math.random() * traces.length),
+            t: Math.random(),
+            speed: 0.002 + Math.random() * 0.004,
+            size: 2 + Math.random() * 2,
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Draw traces
+        for (const tr of traces) {
+          tr.lit += tr.litDir;
+          if (tr.lit > 0.9 || tr.lit < 0.05) tr.litDir *= -1;
+          const alpha = 0.12 + tr.lit * 0.35;
+          ctx.beginPath();
+          ctx.moveTo(tr.ax, tr.ay);
+          ctx.lineTo(tr.bx, tr.by);
+          ctx.strokeStyle = `${ORANGE}${alpha.toFixed(3)})`;
+          ctx.lineWidth = 1.0;
+          ctx.stroke();
+        }
+
+        // Draw nodes
+        for (const nd of nodes) {
+          nd.pulse += nd.pulseDir * 0.012;
+          if (nd.pulse > 1) { nd.pulse = 1; nd.pulseDir = -1; }
+          if (nd.pulse < 0) { nd.pulse = 0; nd.pulseDir = 1; }
+          const alpha = 0.25 + nd.pulse * nd.brightness * 0.70;
+          const r = 2 + nd.pulse * 2.5;
+          // Outer glow
+          const grad = ctx.createRadialGradient(nd.x, nd.y, 0, nd.x, nd.y, r * 4);
+          grad.addColorStop(0, `${ORANGE}${(alpha * 0.8).toFixed(3)})`);
+          grad.addColorStop(1, `${ORANGE}0)`);
+          ctx.beginPath();
+          ctx.arc(nd.x, nd.y, r * 4, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+          ctx.fill();
+          // Core dot
+          ctx.beginPath();
+          ctx.arc(nd.x, nd.y, r, 0, Math.PI * 2);
+          ctx.fillStyle = `${ORANGE}${alpha.toFixed(3)})`;
+          ctx.fill();
+        }
+
+        // Draw energy packets
+        for (const pk of packets) {
+          pk.t += pk.speed;
+          if (pk.t > 1) {
+            pk.t = 0;
+            pk.traceIdx = Math.floor(Math.random() * traces.length);
+            pk.speed = 0.002 + Math.random() * 0.004;
+          }
+          const tr = traces[pk.traceIdx];
+          if (!tr) continue;
+          const x = tr.ax + (tr.bx - tr.ax) * pk.t;
+          const y = tr.ay + (tr.by - tr.ay) * pk.t;
+          // Bright packet glow
+          const grad = ctx.createRadialGradient(x, y, 0, x, y, pk.size * 5);
+          grad.addColorStop(0, `${ORANGE}0.9)`);
+          grad.addColorStop(0.3, `${ORANGE}0.4)`);
+          grad.addColorStop(1, `${ORANGE}0)`);
+          ctx.beginPath();
+          ctx.arc(x, y, pk.size * 5, 0, Math.PI * 2);
+          ctx.fillStyle = grad;
+          ctx.fill();
+          // Core
+          ctx.beginPath();
+          ctx.arc(x, y, pk.size, 0, Math.PI * 2);
+          ctx.fillStyle = `${ORANGE}1)`;
+          ctx.fill();
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      // Rebuild on resize (debounced)
+      let resizeTimer: ReturnType<typeof setTimeout>;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 300);
+      });
+
+      // Also rebuild when page height changes (e.g. lazy content)
+      const ro = new ResizeObserver(() => {
+        const newH = document.documentElement.scrollHeight;
+        if (Math.abs(newH - H) > 100) resize();
+      });
+      ro.observe(document.body);
+
+      resize();
+      draw();
     })();
   </script>
 
