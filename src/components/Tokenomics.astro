@@ -1,0 +1,59 @@
+---
+---
+
+<section id="tokenomics" class="relative py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="font-display font-bold text-4xl md:text-5xl mb-4 reveal-text">Smart Coin <span class="gradient-text">Lifecycle</span></h2>
+      <p class="text-white/50 text-lg max-w-2xl mx-auto reveal-text">ZERA's coin supply isn't managed through mining or printing — it's governed by community participation and fully enforced by the network itself.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="text-center reveal-card">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-zera-orange to-zera-amber flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(255,77,0,0.3)]">
+          <span class="font-display font-bold text-2xl text-white">01</span>
+        </div>
+        <h3 class="font-display font-bold text-xl mb-3">Community Driven</h3>
+        <p class="text-white/50">Supply decisions are made through on-chain governance proposals, not by a centralized team.</p>
+      </div>
+      
+      <div class="text-center reveal-card">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-zera-orange to-zera-amber flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(255,77,0,0.3)]">
+          <span class="font-display font-bold text-2xl text-white">02</span>
+        </div>
+        <h3 class="font-display font-bold text-xl mb-3">Network Enforced</h3>
+        <p class="text-white/50">All monetary policy is executed autonomously by smart contracts with zero manual intervention.</p>
+      </div>
+      
+      <div class="text-center reveal-card">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-zera-orange to-zera-amber flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(255,77,0,0.3)]">
+          <span class="font-display font-bold text-2xl text-white">03</span>
+        </div>
+        <h3 class="font-display font-bold text-xl mb-3">Fully Transparent</h3>
+        <p class="text-white/50">Every mint, burn, and allocation is visible on-chain for complete auditability.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const items = document.querySelectorAll('#tokenomics .reveal-text, #tokenomics .reveal-card');
+  items.forEach((item, i) => {
+    gsap.from(item, {
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      y: 40,
+      opacity: 0,
+      duration: 0.7,
+      delay: i * 0.15,
+      ease: 'power3.out',
+    });
+  });
+</script>

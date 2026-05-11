@@ -1,0 +1,70 @@
+---
+---
+
+<section id="metrics" class="relative py-32 px-6 dot-pattern">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="text-center reveal-metric">
+        <div class="font-display font-bold text-6xl md:text-7xl lg:text-8xl gradient-text mb-2">
+          <span class="counter" data-target="3000">0</span>+
+        </div>
+        <div class="text-white/50 text-lg font-medium">Transactions per second</div>
+      </div>
+      
+      <div class="text-center reveal-metric">
+        <div class="font-display font-bold text-6xl md:text-7xl lg:text-8xl gradient-text mb-2">
+          <span class="counter" data-target="800">0</span>+
+        </div>
+        <div class="text-white/50 text-lg font-medium">Wallets Created</div>
+      </div>
+      
+      <div class="text-center reveal-metric">
+        <div class="font-display font-bold text-6xl md:text-7xl lg:text-8xl gradient-text mb-2">
+          $<span class="counter" data-target="0.004" data-decimals="3">0</span>
+        </div>
+        <div class="text-white/50 text-lg font-medium">Network Fees From</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  function animateCounter(el: HTMLElement) {
+    const target = parseFloat(el.dataset.target || '0');
+    const decimals = parseInt(el.dataset.decimals || '0');
+    const duration = 2;
+    
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
+      duration,
+      ease: 'power2.out',
+      onUpdate: () => {
+        el.textContent = obj.val.toFixed(decimals);
+      },
+    });
+  }
+
+  const metrics = document.querySelectorAll('#metrics .reveal-metric');
+  metrics.forEach((metric) => {
+    gsap.from(metric, {
+      scrollTrigger: {
+        trigger: metric,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+      onComplete: () => {
+        const counter = metric.querySelector('.counter');
+        if (counter) animateCounter(counter as HTMLElement);
+      },
+    });
+  });
+</script>

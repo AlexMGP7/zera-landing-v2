@@ -1,0 +1,74 @@
+---
+---
+
+<section id="features" class="relative py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-20">
+      <h2 class="font-display font-bold text-4xl md:text-5xl mb-4 reveal-text">Build on ZERA with <span class="gradient-text">confidence</span></h2>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="glass rounded-3xl p-8 md:p-10 border border-white/10 hover:border-zera-orange/30 transition-all duration-500 group reveal-card">
+        <div class="w-12 h-12 rounded-xl bg-zera-orange/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-xl mb-3">Smart Coin Lifecycle</h3>
+        <p class="text-white/60 leading-relaxed">ZERA's coin supply isn't managed through mining or printing — it's governed by community participation and fully enforced by the network itself.</p>
+      </div>
+      
+      <div class="glass rounded-3xl p-8 md:p-10 border border-white/10 hover:border-zera-orange/30 transition-all duration-500 group reveal-card">
+        <div class="w-12 h-12 rounded-xl bg-zera-orange/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-xl mb-3">Flexible, and Predictable Fees</h3>
+        <p class="text-white/60 leading-relaxed">Pay transaction fees using any approved coin (not just ZERA)</p>
+      </div>
+      
+      <div class="glass rounded-3xl p-8 md:p-10 border border-white/10 hover:border-zera-orange/30 transition-all duration-500 group reveal-card">
+        <div class="w-12 h-12 rounded-xl bg-zera-orange/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-xl mb-3">A Treasury to Support the Network</h3>
+        <p class="text-white/60 leading-relaxed">Funded through network activity and potentially other governance implemented mechanisms.</p>
+      </div>
+      
+      <div class="glass rounded-3xl p-8 md:p-10 border border-white/10 hover:border-zera-orange/30 transition-all duration-500 group reveal-card">
+        <div class="w-12 h-12 rounded-xl bg-zera-orange/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-xl mb-3">Harness Decentralized Governance</h3>
+        <p class="text-white/60 leading-relaxed">Governance is entirely on-chain, with every decision made through transparent proposals, verifiable voting, and autonomous execution.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const items = document.querySelectorAll('#features .reveal-text, #features .reveal-card');
+  items.forEach((item, i) => {
+    gsap.from(item, {
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      y: 50,
+      opacity: 0,
+      duration: 0.7,
+      delay: i * 0.1,
+      ease: 'power3.out',
+    });
+  });
+</script>

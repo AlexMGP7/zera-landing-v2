@@ -1,0 +1,74 @@
+---
+---
+
+<section id="audit-bridge" class="relative py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- Security Audit Card -->
+      <div class="group relative reveal-card">
+        <div class="absolute inset-0 bg-gradient-to-br from-zera-orange/20 to-transparent rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div class="relative glass rounded-3xl p-8 md:p-12 border border-white/10 hover:border-zera-orange/30 transition-all duration-500 h-full hover:shadow-[0_0_40px_rgba(255,77,0,0.15)]">
+          <div class="w-14 h-14 rounded-2xl bg-zera-orange/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-7 h-7 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-2xl md:text-3xl mb-4">Security Audit</h3>
+          <p class="text-white/60 leading-relaxed mb-8">
+            SolidProof, a leading blockchain audit firm completed an audit of ZERA Network and the bridge. This marks another important milestone for the ZERA community in building trust and reliability across its decentralized infrastructure.
+          </p>
+          <a href="#" class="inline-flex items-center gap-2 text-zera-orange font-semibold group/link">
+            Network Audit
+            <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Solana Bridge Card -->
+      <div class="group relative reveal-card">
+        <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-transparent rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div class="relative glass rounded-3xl p-8 md:p-12 border border-white/10 hover:border-purple-500/30 transition-all duration-500 h-full hover:shadow-[0_0_40px_rgba(168,85,247,0.15)]">
+          <div class="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-2xl md:text-3xl mb-4">The Solana Bridge is Here!</h3>
+          <p class="text-white/60 leading-relaxed mb-8">
+            Adding the Solana bridge to ZERA unlocks fast, low-cost cross-chain transactions, expands access to Solana's mature DeFi Ecosystem, and enables seamless interoperability. Developers are encouraged to integrate with the bridge to provide broader accessibility to the community!
+          </p>
+          <a href="#" class="inline-flex items-center gap-2 text-purple-400 font-semibold group/link">
+            Bridge Audit
+            <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const cards = document.querySelectorAll('#audit-bridge .reveal-card');
+  cards.forEach((card, i) => {
+    gsap.from(card, {
+      scrollTrigger: {
+        trigger: card,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      y: 60,
+      opacity: 0,
+      duration: 0.8,
+      delay: i * 0.2,
+      ease: 'power3.out',
+    });
+  });
+</script>

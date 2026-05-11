@@ -1,0 +1,92 @@
+---
+---
+
+<section id="governance" class="relative py-32 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="order-2 lg:order-1 relative reveal-text">
+        <div class="absolute inset-0 bg-gradient-to-br from-zera-orange/20 to-transparent rounded-3xl blur-2xl"></div>
+        <div class="relative glass rounded-3xl p-8 md:p-12 border border-zera-orange/10">
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-zera-orange/10 flex items-center justify-center flex-shrink-0 mt-1">
+                <svg class="w-5 h-5 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-display font-bold text-lg mb-1">On-Chain Voting</h4>
+                <p class="text-white/50 text-sm">Every vote is recorded transparently on the blockchain with verifiable results.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-zera-orange/10 flex items-center justify-center flex-shrink-0 mt-1">
+                <svg class="w-5 h-5 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-display font-bold text-lg mb-1">Autonomous Execution</h4>
+                <p class="text-white/50 text-sm">Approved proposals execute automatically without manual intervention.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-zera-orange/10 flex items-center justify-center flex-shrink-0 mt-1">
+                <svg class="w-5 h-5 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-display font-bold text-lg mb-1">Full Transparency</h4>
+                <p class="text-white/50 text-sm">All governance activity is publicly visible and auditable by anyone.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="order-1 lg:order-2">
+        <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-8 reveal-text">
+          Collective <span class="gradient-text">Governance</span>
+        </h2>
+        <div class="space-y-6 text-lg text-white/70 leading-relaxed reveal-text">
+          <p>
+            ZERA's governance engine is not a suggestion box — it's an autonomous execution layer. When the community votes, the network acts.
+          </p>
+          <p>
+            From protocol parameter changes to treasury disbursements, every decision is enforced by smart contracts, not by a committee. This is governance that cannot be ignored, delayed, or overridden.
+          </p>
+        </div>
+        <a href="#" class="inline-flex items-center gap-2 mt-10 text-zera-orange font-semibold group reveal-text">
+          View Governance Portal
+          <svg class="w-5 h-5 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const texts = document.querySelectorAll('#governance .reveal-text');
+  texts.forEach((text, i) => {
+    gsap.from(text, {
+      scrollTrigger: {
+        trigger: text,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      delay: i * 0.15,
+      ease: 'power3.out',
+    });
+  });
+</script>

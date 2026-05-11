@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  
+  --color-zera-black: #030201;
+  --color-zera-dark: #0a0a0a;
+  --color-zera-gray: #171717;
+  --color-zera-orange: #ff4d00;
+  --color-zera-orange-light: #ff6b00;
+  --color-zera-amber: #ffa500;
+  --color-zera-glow: rgba(255, 77, 0, 0.4);
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('https://fonts.gstatic.com/s/spacegrotesk/v16/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj7oUXskPMBBSSJLm2E.woff2') format('woff2');
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-zera-black);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-zera-orange);
+  color: #000;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-zera-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-zera-orange);
+  border-radius: 4px;
+}
+
+/* Neon glow utilities */
+.neon-text {
+  text-shadow: 0 0 10px var(--color-zera-glow), 0 0 20px var(--color-zera-glow), 0 0 40px var(--color-zera-glow);
+}
+
+.neon-border {
+  box-shadow: 0 0 10px var(--color-zera-glow), 0 0 20px var(--color-zera-glow), inset 0 0 10px var(--color-zera-glow);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #ff4d00 0%, #ffa500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Magnetic button effect placeholder */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 77, 0, 0.1);
+}
+
+/* Section reveal base */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* Dot pattern background */
+.dot-pattern {
+  background-image: radial-gradient(rgba(255, 77, 0, 0.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
