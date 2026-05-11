@@ -44,9 +44,9 @@ const partners = [
       <p class="text-white/50 text-lg max-w-2xl mx-auto reveal-text">Built alongside industry-leading protocols and audited by top security firms.</p>
     </div>
     
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 perspective-container preserve-3d">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 perspective-container">
       {partners.map((partner, i) => (
-        <div data-3d-card class="group relative reveal-card preserve-3d" data-index={i}>
+        <div data-3d-card data-tilt class="group relative reveal-card" data-index={i}>
           <div class="absolute inset-0 bg-gradient-to-br from-zera-orange/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           <div class="relative glass rounded-2xl p-6 border border-white/10 hover:border-zera-orange/20 transition-all duration-500 text-center h-full flex flex-col items-center justify-center gap-3">
             <div class="text-zera-orange/70 group-hover:text-zera-orange transition-colors group-hover:scale-110 duration-300">

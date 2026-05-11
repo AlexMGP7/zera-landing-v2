@@ -51,7 +51,7 @@ const {
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   
-  <link rel="icon" type="image/svg+xml" href="/logo-zera.svg" />
+  <link rel="icon" type="image/png" href="/zera-landing-v2/logos/zera-logo-nav.png" />
   <title>{title}</title>
   
   <style is:inline>
@@ -189,24 +189,30 @@ const {
     import { ScrollTrigger } from 'gsap/ScrollTrigger';
     gsap.registerPlugin(ScrollTrigger);
 
-    // Cards: clean fade+rise with subtle 3D entry
+    // Cards: reveal with opacity + margin-top (NO transform — tilt owns transform)
     const cards3D = document.querySelectorAll('[data-3d-card]');
     cards3D.forEach((card, i) => {
-      gsap.set(card, { opacity: 0, y: 40, rotateX: 6, scale: 0.98 });
+      const el = card as HTMLElement;
+      el.style.opacity = '0';
+      el.style.marginTop = '30px';
+      el.style.transition = 'none';
       ScrollTrigger.create({
-        trigger: card,
-        start: 'top 88%',
+        trigger: el,
+        start: 'top 90%',
         once: true,
         onEnter: () => {
-          gsap.to(card, {
+          const delay = (i % 3) * 0.07;
+          gsap.to(el, {
             opacity: 1,
-            y: 0,
-            rotateX: 0,
-            scale: 1,
-            duration: 0.7,
-            delay: (i % 3) * 0.08,
+            marginTop: '0px',
+            duration: 0.65,
+            delay,
             ease: 'power3.out',
-            clearProps: 'transform',
+            onComplete: () => {
+              // Clean up inline styles so tilt CSS works cleanly
+              el.style.marginTop = '';
+              el.style.transition = '';
+            },
           });
         },
       });
@@ -232,5 +238,79 @@ const {
       });
     });
   </script>
+
+  <script>
+    // ── Global 3D tilt system ──────────────────────────────────────────────
+    // Uses CSS custom properties so it never conflicts with GSAP animations.
+    // Smooth RAF-based interpolation for 60fps without CSS transition jank.
+    (function() {
+      const TILT_MAX = 10; // degrees
+      const LERP = 0.12;   // interpolation speed (lower = smoother)
+
+      interface TiltState {
+        targetX: number;
+        targetY: number;
+        currentX: number;
+        currentY: number;
+        rafId: number | null;
+        active: boolean;
+      }
+
+      function initTilt(card: HTMLElement) {
+        const state: TiltState = {
+          targetX: 0, targetY: 0,
+          currentX: 0, currentY: 0,
+          rafId: null, active: false,
+        };
+
+        function animate() {
+          state.currentX += (state.targetX - state.currentX) * LERP;
+          state.currentY += (state.targetY - state.currentY) * LERP;
+
+          card.style.setProperty('--tilt-x', state.currentX.toFixed(3) + 'deg');
+          card.style.setProperty('--tilt-y', state.currentY.toFixed(3) + 'deg');
+
+          const dist = Math.abs(state.targetX - state.currentX) + Math.abs(state.targetY - state.currentY);
+          if (state.active || dist > 0.01) {
+            state.rafId = requestAnimationFrame(animate);
+          } else {
+            state.rafId = null;
+          }
+        }
+
+        card.addEventListener('mouseenter', () => {
+          state.active = true;
+          card.classList.remove('tilt-resetting');
+          if (!state.rafId) state.rafId = requestAnimationFrame(animate);
+        });
+
+        card.addEventListener('mousemove', (e: MouseEvent) => {
+          const r = card.getBoundingClientRect();
+          const dx = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+          const dy = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+          state.targetX = -dy * TILT_MAX;
+          state.targetY = dx * TILT_MAX;
+          // Dynamic shadow
+          card.style.boxShadow = `${dx * -8}px ${dy * -8}px 30px rgba(255,77,0,${0.08 + Math.abs(dx) * 0.06})`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          state.active = false;
+          state.targetX = 0;
+          state.targetY = 0;
+          card.classList.add('tilt-resetting');
+          card.style.boxShadow = '';
+          if (!state.rafId) state.rafId = requestAnimationFrame(animate);
+          setTimeout(() => card.classList.remove('tilt-resetting'), 500);
+        });
+      }
+
+      // Init on all tilt cards
+      document.querySelectorAll('[data-tilt]').forEach((el) => {
+        initTilt(el as HTMLElement);
+      });
+    })();
+  </script>
+
 </body>
 </html>

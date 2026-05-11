@@ -226,3 +226,24 @@ html, body {
     transform-style: flat !important;
   }
 }
+
+/* ── 3D Tilt system via CSS custom properties ─────────────────────────────── */
+/* Cards use --tilt-x / --tilt-y set by JS, never conflicting with GSAP */
+[data-tilt] {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --tilt-scale: 1;
+  transform: perspective(800px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--tilt-scale));
+  transform-style: flat;
+  will-change: transform;
+  transition: transform 0.35s cubic-bezier(0.03, 0.98, 0.52, 0.99),
+              box-shadow 0.35s ease;
+}
+[data-tilt]:hover {
+  --tilt-scale: 1.02;
+}
+/* Smooth reset on mouse leave */
+[data-tilt].tilt-resetting {
+  transition: transform 0.5s cubic-bezier(0.03, 0.98, 0.52, 0.99),
+              box-shadow 0.5s ease;
+}
