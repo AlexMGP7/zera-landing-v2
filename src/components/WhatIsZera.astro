@@ -1,6 +1,5 @@
 ---
 ---
-
 <section id="what-is-zera" class="relative py-32 px-6">
   <div class="max-w-7xl mx-auto">
     <div class="grid lg:grid-cols-2 gap-16 items-center">
@@ -8,44 +7,35 @@
         <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl leading-tight mb-8 reveal-text">
           What is <span class="gradient-text">ZERA?</span>
         </h2>
-        
         <div class="space-y-6 text-lg text-white/70 leading-relaxed reveal-text">
-          <p>
-            <strong class="text-white font-semibold">ZERA</strong> is a governance-first blockchain network redefining decentralization by giving the community direct and autonomous control over every aspect of the protocol.
-          </p>
-          <p>
-            It eliminates the traditional gap between decision and action — when users vote, the network executes transactions autonomously through a self-enforcing governance engine.
-          </p>
-          <p>
-            From protocol upgrades to treasury allocations, every operation happens transparently and without human intervention. Fueled by a self-sufficient treasury and a WASM-powered smart contract engine, ZERA transforms governance into a living system — fast, autonomous, and truly democratic.
-          </p>
+          <p><strong class="text-white font-semibold">ZERA</strong> is a governance-first blockchain network redefining decentralization by giving the community direct and autonomous control over every aspect of the protocol.</p>
+          <p>It eliminates the traditional gap between decision and action — when users vote, the network executes transactions autonomously through a self-enforcing governance engine.</p>
+          <p>From protocol upgrades to treasury allocations, every operation happens transparently and without human intervention. Fueled by a self-sufficient treasury and a WASM-powered smart contract engine, ZERA transforms governance into a living system — fast, autonomous, and truly democratic.</p>
         </div>
-        
         <a href="#learn-more" class="inline-flex items-center gap-2 mt-10 text-zera-orange font-semibold group reveal-text">
           Learn More
-          <svg class="w-5 h-5 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
+          <svg class="w-5 h-5 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </a>
       </div>
-      
-      <div class="relative reveal-text">
-        <div class="absolute inset-0 bg-gradient-to-br from-zera-orange/20 to-transparent rounded-3xl blur-2xl"></div>
-        <div class="relative glass rounded-3xl p-8 md:p-12 border border-zera-orange/10">
-          <div class="grid grid-cols-2 gap-6">
-            <div class="text-center p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors">
+
+      <div class="relative reveal-text" style="perspective: 800px;">
+        <div class="absolute inset-0 bg-gradient-to-br from-zera-orange/20 to-transparent rounded-3xl blur-2xl pointer-events-none"></div>
+        <div id="stats-card" class="relative glass rounded-3xl p-8 md:p-12 border border-zera-orange/10 cursor-default" style="transform-style: preserve-3d; will-change: transform; transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;">
+          <div id="stats-shine" class="absolute inset-0 rounded-3xl pointer-events-none" style="background: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.06) 0%, transparent 60%);"></div>
+          <div class="relative grid grid-cols-2 gap-6" style="transform: translateZ(20px);">
+            <div class="text-center p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,77,0,0.2)]">
               <div class="text-3xl font-display font-bold text-zera-orange mb-2">3K+</div>
               <div class="text-sm text-white/50">Transactions/sec</div>
             </div>
-            <div class="text-center p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors">
+            <div class="text-center p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,77,0,0.2)]">
               <div class="text-3xl font-display font-bold text-zera-orange mb-2">800+</div>
               <div class="text-sm text-white/50">Wallets Created</div>
             </div>
-            <div class="text-center p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors">
+            <div class="text-center p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,77,0,0.2)]">
               <div class="text-3xl font-display font-bold text-zera-orange mb-2">$0.004</div>
               <div class="text-sm text-white/50">Network Fees</div>
             </div>
-            <div class="text-center p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors">
+            <div class="text-center p-6 rounded-2xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,77,0,0.2)]">
               <div class="text-3xl font-display font-bold text-zera-orange mb-2">WASM</div>
               <div class="text-sm text-white/50">Smart Contracts</div>
             </div>
@@ -64,16 +54,28 @@
   const texts = document.querySelectorAll('#what-is-zera .reveal-text');
   texts.forEach((text, i) => {
     gsap.from(text, {
-      scrollTrigger: {
-        trigger: text,
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      delay: i * 0.15,
-      ease: 'power3.out',
+      scrollTrigger: { trigger: text, start: 'top 85%', toggleActions: 'play none none none' },
+      y: 50, opacity: 0, duration: 0.8, delay: i * 0.15, ease: 'power3.out',
     });
   });
+
+  // 3D Tilt
+  const card = document.getElementById('stats-card') as HTMLElement | null;
+  const shine = document.getElementById('stats-shine') as HTMLElement | null;
+  if (card) {
+    const MAX = 14;
+    card.addEventListener('mousemove', (e: MouseEvent) => {
+      const r = card.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+      const dy = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+      card.style.transform = `rotateX(${-dy * MAX}deg) rotateY(${dx * MAX}deg) scale(1.02)`;
+      card.style.boxShadow = `0 ${20 + dy * 10}px ${40 + Math.abs(dy) * 20}px rgba(255,77,0,${0.15 + Math.abs(dx) * 0.1})`;
+      if (shine) shine.style.background = `radial-gradient(circle at ${50 + dx * 30}% ${20 + dy * 30}%, rgba(255,255,255,0.1) 0%, transparent 60%)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.boxShadow = '';
+      if (shine) shine.style.background = 'radial-gradient(circle at 50% 20%, rgba(255,255,255,0.06) 0%, transparent 60%)';
+    });
+  }
 </script>

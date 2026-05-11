@@ -1,40 +1,81 @@
 ---
 ---
-
 <section id="tokenomics" class="relative py-32 px-6">
-  <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-16">
-      <h2 class="font-display font-bold text-4xl md:text-5xl mb-4 reveal-text">Smart Coin <span class="gradient-text">Lifecycle</span></h2>
-      <p class="text-white/50 text-lg max-w-2xl mx-auto reveal-text">ZERA's coin supply isn't managed through mining or printing — it's governed by community participation and fully enforced by the network itself.</p>
+  <!-- Subtle radial glow -->
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,77,0,0.06) 0%, transparent 70%);"></div>
+
+  <div class="max-w-7xl mx-auto relative z-10">
+    <div class="text-center mb-20">
+      <h2 class="font-display font-bold text-4xl md:text-5xl mb-4 reveal-text">
+        Smart Coin <span class="gradient-text">Lifecycle</span>
+      </h2>
+      <p class="text-white/50 text-lg max-w-2xl mx-auto reveal-text">
+        ZERA's coin supply isn't managed through mining or printing — it's governed by community participation and fully enforced by the network itself.
+      </p>
     </div>
-    
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="text-center reveal-card">
-        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-zera-orange to-zera-amber flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(255,77,0,0.3)]">
-          <span class="font-display font-bold text-2xl text-white">01</span>
+
+    <div class="grid md:grid-cols-3 gap-10">
+
+      <!-- Step 01 -->
+      <div class="text-center reveal-card group">
+        <div class="relative w-24 h-24 mx-auto mb-8">
+          <!-- Outer ring -->
+          <div class="absolute inset-0 rounded-full border-2 border-zera-orange/30 group-hover:border-zera-orange/70 transition-colors duration-500" style="animation: spin-slow 8s linear infinite;"></div>
+          <!-- Inner ring -->
+          <div class="absolute inset-[6px] rounded-full border border-zera-orange/20 group-hover:border-zera-orange/50 transition-colors duration-500" style="animation: spin-slow 5s linear infinite reverse;"></div>
+          <!-- Number sphere -->
+          <div class="absolute inset-[12px] rounded-full flex items-center justify-center" style="background: radial-gradient(circle at 35% 30%, rgba(255,120,0,0.9), rgba(255,77,0,0.7)); box-shadow: 0 0 24px rgba(255,77,0,0.5), inset 0 2px 4px rgba(255,255,255,0.2);">
+            <span class="font-display font-bold text-xl text-white">01</span>
+          </div>
+          <!-- Orbit dot -->
+          <div class="absolute w-2.5 h-2.5 rounded-full bg-zera-amber shadow-[0_0_8px_rgba(255,165,0,0.9)]" style="top: -5px; left: calc(50% - 5px); animation: orbit-dot 3s linear infinite;"></div>
         </div>
-        <h3 class="font-display font-bold text-xl mb-3">Community Driven</h3>
-        <p class="text-white/50">Supply decisions are made through on-chain governance proposals, not by a centralized team.</p>
+        <h3 class="font-display font-bold text-xl mb-3 group-hover:text-zera-orange transition-colors duration-300">Community Driven</h3>
+        <p class="text-white/50 leading-relaxed">Supply decisions are made through on-chain governance proposals, not by a centralized team.</p>
       </div>
-      
-      <div class="text-center reveal-card">
-        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-zera-orange to-zera-amber flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(255,77,0,0.3)]">
-          <span class="font-display font-bold text-2xl text-white">02</span>
+
+      <!-- Step 02 -->
+      <div class="text-center reveal-card group">
+        <div class="relative w-24 h-24 mx-auto mb-8">
+          <div class="absolute inset-0 rounded-full border-2 border-zera-orange/30 group-hover:border-zera-orange/70 transition-colors duration-500" style="animation: spin-slow 10s linear infinite reverse;"></div>
+          <div class="absolute inset-[6px] rounded-full border border-zera-orange/20 group-hover:border-zera-orange/50 transition-colors duration-500" style="animation: spin-slow 6s linear infinite;"></div>
+          <div class="absolute inset-[12px] rounded-full flex items-center justify-center" style="background: radial-gradient(circle at 35% 30%, rgba(255,120,0,0.9), rgba(255,77,0,0.7)); box-shadow: 0 0 24px rgba(255,77,0,0.5), inset 0 2px 4px rgba(255,255,255,0.2);">
+            <span class="font-display font-bold text-xl text-white">02</span>
+          </div>
+          <div class="absolute w-2.5 h-2.5 rounded-full bg-zera-amber shadow-[0_0_8px_rgba(255,165,0,0.9)]" style="top: -5px; left: calc(50% - 5px); animation: orbit-dot 4s linear infinite reverse;"></div>
         </div>
-        <h3 class="font-display font-bold text-xl mb-3">Network Enforced</h3>
-        <p class="text-white/50">All monetary policy is executed autonomously by smart contracts with zero manual intervention.</p>
+        <h3 class="font-display font-bold text-xl mb-3 group-hover:text-zera-orange transition-colors duration-300">Network Enforced</h3>
+        <p class="text-white/50 leading-relaxed">All monetary policy is executed autonomously by smart contracts with zero manual intervention.</p>
       </div>
-      
-      <div class="text-center reveal-card">
-        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-zera-orange to-zera-amber flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(255,77,0,0.3)]">
-          <span class="font-display font-bold text-2xl text-white">03</span>
+
+      <!-- Step 03 -->
+      <div class="text-center reveal-card group">
+        <div class="relative w-24 h-24 mx-auto mb-8">
+          <div class="absolute inset-0 rounded-full border-2 border-zera-orange/30 group-hover:border-zera-orange/70 transition-colors duration-500" style="animation: spin-slow 7s linear infinite;"></div>
+          <div class="absolute inset-[6px] rounded-full border border-zera-orange/20 group-hover:border-zera-orange/50 transition-colors duration-500" style="animation: spin-slow 4s linear infinite reverse;"></div>
+          <div class="absolute inset-[12px] rounded-full flex items-center justify-center" style="background: radial-gradient(circle at 35% 30%, rgba(255,120,0,0.9), rgba(255,77,0,0.7)); box-shadow: 0 0 24px rgba(255,77,0,0.5), inset 0 2px 4px rgba(255,255,255,0.2);">
+            <span class="font-display font-bold text-xl text-white">03</span>
+          </div>
+          <div class="absolute w-2.5 h-2.5 rounded-full bg-zera-amber shadow-[0_0_8px_rgba(255,165,0,0.9)]" style="top: -5px; left: calc(50% - 5px); animation: orbit-dot 2.5s linear infinite;"></div>
         </div>
-        <h3 class="font-display font-bold text-xl mb-3">Fully Transparent</h3>
-        <p class="text-white/50">Every mint, burn, and allocation is visible on-chain for complete auditability.</p>
+        <h3 class="font-display font-bold text-xl mb-3 group-hover:text-zera-orange transition-colors duration-300">Fully Transparent</h3>
+        <p class="text-white/50 leading-relaxed">Every mint, burn, and allocation is visible on-chain for complete auditability.</p>
       </div>
+
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes orbit-dot {
+    from { transform: rotate(0deg) translateX(48px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(48px) rotate(-360deg); }
+  }
+</style>
 
 <script>
   import gsap from 'gsap';

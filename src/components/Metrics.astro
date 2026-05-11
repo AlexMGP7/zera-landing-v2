@@ -1,32 +1,72 @@
 ---
 ---
+<section id="metrics" class="relative pt-20 pb-32 px-6 overflow-hidden">
+  <!-- Animated light beams background -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="beam beam-1"></div>
+    <div class="beam beam-2"></div>
+    <div class="beam beam-3"></div>
+  </div>
+  <!-- Dot pattern -->
+  <div class="absolute inset-0 dot-pattern pointer-events-none opacity-60"></div>
 
-<section id="metrics" class="relative py-32 px-6 dot-pattern">
-  <div class="max-w-7xl mx-auto">
+  <div class="max-w-7xl mx-auto relative z-10">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="text-center reveal-metric">
-        <div class="font-display font-bold text-6xl md:text-7xl lg:text-8xl gradient-text mb-2">
-          <span class="counter" data-target="3000">0</span>+
+
+      <div class="text-center reveal-metric group">
+        <div class="relative inline-block">
+          <div class="font-display font-bold text-6xl md:text-7xl lg:text-8xl gradient-text mb-2 tabular-nums">
+            <span class="counter" data-target="3000" data-suffix="K+" data-divisor="1000">0</span>
+          </div>
+          <div class="absolute -inset-4 bg-zera-orange/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         </div>
-        <div class="text-white/50 text-lg font-medium">Transactions per second</div>
+        <div class="text-white/50 text-lg font-medium mt-2">Transactions per second</div>
       </div>
-      
-      <div class="text-center reveal-metric">
-        <div class="font-display font-bold text-6xl md:text-7xl lg:text-8xl gradient-text mb-2">
-          <span class="counter" data-target="800">0</span>+
+
+      <div class="text-center reveal-metric group">
+        <div class="relative inline-block">
+          <div class="font-display font-bold text-6xl md:text-7xl lg:text-8xl gradient-text mb-2 tabular-nums">
+            <span class="counter" data-target="800" data-suffix="+">0</span>
+          </div>
+          <div class="absolute -inset-4 bg-zera-orange/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         </div>
-        <div class="text-white/50 text-lg font-medium">Wallets Created</div>
+        <div class="text-white/50 text-lg font-medium mt-2">Wallets Created</div>
       </div>
-      
-      <div class="text-center reveal-metric">
-        <div class="font-display font-bold text-6xl md:text-7xl lg:text-8xl gradient-text mb-2">
-          $<span class="counter" data-target="0.004" data-decimals="3">0</span>
+
+      <div class="text-center reveal-metric group">
+        <div class="relative inline-block">
+          <div class="font-display font-bold text-6xl md:text-7xl lg:text-8xl gradient-text mb-2 tabular-nums">
+            $<span class="counter" data-target="0.004" data-decimals="3">0</span>
+          </div>
+          <div class="absolute -inset-4 bg-zera-orange/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
         </div>
-        <div class="text-white/50 text-lg font-medium">Network Fees From</div>
+        <div class="text-white/50 text-lg font-medium mt-2">Network Fees From</div>
       </div>
+
     </div>
   </div>
 </section>
+
+<style>
+  .beam {
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    top: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(255,77,0,0.3) 50%, transparent 100%);
+    animation: beam-sweep 4s ease-in-out infinite;
+    opacity: 0;
+  }
+  .beam-1 { left: 20%; animation-delay: 0s; }
+  .beam-2 { left: 50%; animation-delay: 1.3s; }
+  .beam-3 { left: 80%; animation-delay: 2.6s; }
+  @keyframes beam-sweep {
+    0%   { opacity: 0; transform: scaleY(0) translateY(-100%); }
+    20%  { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; transform: scaleY(1) translateY(0%); }
+  }
+</style>
 
 <script>
   import gsap from 'gsap';
@@ -36,34 +76,41 @@
   function animateCounter(el: HTMLElement) {
     const target = parseFloat(el.dataset.target || '0');
     const decimals = parseInt(el.dataset.decimals || '0');
-    const duration = 2;
-    
+    const divisor = parseFloat(el.dataset.divisor || '1');
+    const suffix = el.dataset.suffix || '';
+    const duration = 2.2;
     const obj = { val: 0 };
     gsap.to(obj, {
       val: target,
       duration,
       ease: 'power2.out',
       onUpdate: () => {
-        el.textContent = obj.val.toFixed(decimals);
+        const display = obj.val / divisor;
+        el.textContent = display.toFixed(decimals) + suffix;
+      },
+      onComplete: () => {
+        const display = target / divisor;
+        el.textContent = display.toFixed(decimals) + suffix;
       },
     });
   }
 
   const metrics = document.querySelectorAll('#metrics .reveal-metric');
-  metrics.forEach((metric) => {
-    gsap.from(metric, {
-      scrollTrigger: {
-        trigger: metric,
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power3.out',
-      onComplete: () => {
-        const counter = metric.querySelector('.counter');
-        if (counter) animateCounter(counter as HTMLElement);
+  metrics.forEach((metric, idx) => {
+    ScrollTrigger.create({
+      trigger: metric,
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        gsap.fromTo(metric,
+          { y: 60, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.9, delay: idx * 0.15, ease: 'power3.out',
+            onComplete: () => {
+              const counter = metric.querySelector('.counter');
+              if (counter) animateCounter(counter as HTMLElement);
+            }
+          }
+        );
       },
     });
   });
