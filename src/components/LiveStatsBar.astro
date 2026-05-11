@@ -1,0 +1,85 @@
+---
+// Live network stats - simulated data, ready for API integration
+const stats = [
+  { label: 'Block Height', value: 3045, suffix: '', prefix: '#', decimals: 0, change: '+12', color: 'zera-orange' },
+  { label: 'Wallets', value: 922, suffix: '+', prefix: '', decimals: 0, change: '+48', color: 'zera-orange' },
+  { label: 'Transactions/sec', value: 3000, suffix: '+', prefix: '', decimals: 0, change: 'Stable', color: 'zera-orange' },
+  { label: 'Network Fees', value: 0.004, suffix: '', prefix: '$', decimals: 3, change: '-12%', color: 'green-400' },
+  { label: '$ZRA Price', value: 0.09366, suffix: '', prefix: '$', decimals: 5, change: '+248.88%', color: 'green-400' },
+];
+---
+
+<section id="live-stats" class="relative py-12 px-6 border-y border-white/5">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4">
+      {stats.map((stat, i) => (
+        <div class="text-center reveal-stat" data-reveal-stat data-index={i}>
+          <div class="text-white/40 text-xs uppercase tracking-widest mb-2 font-medium">{stat.label}</div>
+          <div class="font-display font-bold text-2xl md:text-3xl text-white mb-1 flex items-center justify-center gap-1">
+            <span>{stat.prefix}</span>
+            <span class="counter-value" data-target={stat.value} data-decimals={stat.decimals} data-prefix={stat.prefix}>0</span>
+            <span>{stat.suffix}</span>
+          </div>
+          <div class={`text-xs font-medium ${stat.change.startsWith('+') ? 'text-green-400' : stat.change.startsWith('-') ? 'text-green-400' : 'text-white/30'}`}>
+            {stat.change}
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <!-- Live indicator -->
+    <div class="flex items-center justify-center gap-2 mt-8 text-white/30 text-xs">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+      </span>
+      <span>Live Network Data</span>
+      <span class="mx-2">·</span>
+      <a href="https://zerascan.io" target="_blank" rel="noopener noreferrer" class="hover:text-zera-orange transition-colors">View on zerascan.io →</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Animate counters
+  function animateCounter(el: HTMLElement) {
+    const target = parseFloat(el.dataset.target || '0');
+    const decimals = parseInt(el.dataset.decimals || '0');
+    const prefix = el.dataset.prefix || '';
+    
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
+      duration: 2.5,
+      ease: 'power2.out',
+      onUpdate: () => {
+        el.textContent = prefix + obj.val.toFixed(decimals);
+      },
+    });
+  }
+
+  // Reveal stats with stagger
+  const statItems = document.querySelectorAll('.reveal-stat');
+  statItems.forEach((item, i) => {
+    gsap.from(item, {
+      scrollTrigger: {
+        trigger: '#live-stats',
+        start: 'top 90%',
+        toggleActions: 'play none none none',
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      delay: i * 0.1,
+      ease: 'power3.out',
+      onComplete: () => {
+        const counter = item.querySelector('.counter-value');
+        if (counter) animateCounter(counter as HTMLElement);
+      },
+    });
+  });
+</script>

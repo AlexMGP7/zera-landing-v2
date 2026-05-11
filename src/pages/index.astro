@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
-import ParticleBackground from '../components/ParticleBackground.astro';
+import ShaderBackground from '../components/ShaderBackground.astro';
 import Hero from '../components/Hero.astro';
+import LiveStatsBar from '../components/LiveStatsBar.astro';
 import WhatIsZera from '../components/WhatIsZera.astro';
 import Governance from '../components/Governance.astro';
 import AuditBridge from '../components/AuditBridge.astro';
@@ -12,22 +13,29 @@ import Tokenomics from '../components/Tokenomics.astro';
 import Features from '../components/Features.astro';
 import Action from '../components/Action.astro';
 import Overview from '../components/Overview.astro';
+import GovernanceFeed from '../components/GovernanceFeed.astro';
+import Roadmap from '../components/Roadmap.astro';
+import EcosystemGrid from '../components/EcosystemGrid.astro';
 import LearnMore from '../components/LearnMore.astro';
 import Footer from '../components/Footer.astro';
 ---
 
 <Layout>
-  <ParticleBackground />
+  <ShaderBackground />
   <Navbar />
   <main class="relative z-10">
     <Hero />
+    <LiveStatsBar />
     <WhatIsZera />
     <Governance />
+    <GovernanceFeed />
     <AuditBridge />
     <Discover />
     <Metrics />
     <Tokenomics />
+    <Roadmap />
     <Features />
+    <EcosystemGrid />
     <Action />
     <Overview />
     <LearnMore />

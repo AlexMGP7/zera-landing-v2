@@ -2,18 +2,18 @@
 ---
 
 <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-  <!-- Gradient orb behind -->
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-3xl pointer-events-none" style="background: radial-gradient(circle, rgba(255,77,0,0.2) 0%, rgba(255,77,0,0.05) 40%, transparent 70%);"></div>
+  <!-- Gradient orb behind for fallback -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full blur-3xl pointer-events-none opacity-60" style="background: radial-gradient(circle, rgba(255,77,0,0.18) 0%, rgba(255,77,0,0.04) 40%, transparent 70%);"></div>
   
   <div class="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
     <!-- Badge -->
-    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-zera-orange/20 mb-8 reveal-item">
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-zera-orange/20 mb-10 reveal-item" data-reveal>
       <span class="w-2 h-2 rounded-full bg-zera-orange animate-pulse shadow-[0_0_8px_rgba(255,77,0,0.8)]"></span>
       <span class="text-sm font-medium text-white/80 tracking-wide">ZERA Network</span>
     </div>
     
     <!-- Main Title -->
-    <h1 class="font-display font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight mb-6">
+    <h1 data-3d-text class="font-display font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[1.05] tracking-tight mb-8 preserve-3d">
       <span class="block hero-line overflow-hidden">
         <span class="inline-block hero-word">Community-Governed.</span>
       </span>
@@ -23,13 +23,13 @@
     </h1>
     
     <!-- Subtitle -->
-    <p class="max-w-2xl mx-auto text-lg md:text-xl text-white/60 mb-12 reveal-item leading-relaxed">
+    <p class="max-w-2xl mx-auto text-lg md:text-xl text-white/50 mb-14 reveal-item leading-relaxed" data-reveal>
       The ZERA Network is a modern, governance-first blockchain platform designed for high-performance, developer-friendly Web3 applications.
     </p>
     
     <!-- Buttons -->
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20 reveal-item">
-      <a href="#community" class="group relative px-8 py-4 rounded-full bg-zera-orange text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,77,0,0.5)] hover:scale-105">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24 reveal-item" data-reveal>
+      <a href="https://t.me/zeranetwork" target="_blank" rel="noopener noreferrer" class="group relative px-8 py-4 rounded-full bg-zera-orange text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,77,0,0.5)] hover:scale-105" data-magnetic>
         <span class="relative z-10 flex items-center gap-2">
           Join Community
           <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,13 +39,13 @@
         <div class="absolute inset-0 bg-gradient-to-r from-zera-orange-light to-zera-amber opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </a>
       
-      <a href="#zera-gpt" class="px-8 py-4 rounded-full glass border border-white/10 text-white font-semibold text-lg hover:border-zera-orange/50 hover:bg-zera-orange/5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,77,0,0.2)]">
+      <a href="http://chatgpt.com/g/g-68a96e8daadc8191945582a504f0efe1-zera-gpt" target="_blank" rel="noopener noreferrer" class="px-8 py-4 rounded-full glass border border-white/10 text-white font-semibold text-lg hover:border-zera-orange/50 hover:bg-zera-orange/5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,77,0,0.2)]" data-magnetic>
         Try Zera GPT
       </a>
     </div>
     
-    <!-- 3D Logo -->
-    <div class="relative w-48 h-48 md:w-64 md:h-64 mx-auto mb-16" style="perspective: 1000px;">
+    <!-- 3D Logo with enhanced glow -->
+    <div class="relative w-56 h-56 md:w-72 md:h-72 mx-auto mb-16" style="perspective: 1000px;">
       <div id="logo-3d" class="w-full h-full transition-transform duration-100 ease-out" style="transform-style: preserve-3d;">
         <svg viewBox="0 0 239 304" class="w-full h-full drop-shadow-[0_0_30px_rgba(255,77,0,0.5)]" fill="none">
           <defs>
@@ -54,7 +54,7 @@
               <stop offset="100%" stop-color="#ffa500"/>
             </linearGradient>
             <filter id="logoGlow">
-              <feGaussianBlur stdDeviation="8" result="blur"/>
+              <feGaussianBlur stdDeviation="10" result="blur"/>
               <feMerge>
                 <feMergeNode in="blur"/>
                 <feMergeNode in="blur"/>
@@ -65,23 +65,28 @@
           <path d="M177.642 20.46c.523-1.959-1.865-3.363-3.322-1.954L19.558 168.062c-1.293 1.249-.409 3.438 1.39 3.438h64.89c2.047 0 3.493 2.006 2.846 3.949l-35.574 106.722c-.664 1.99 1.793 3.529 3.294 2.064l158.826-155.089c1.924-1.879.594-5.146-2.096-5.146h-60.53c-1.314 0-2.271-1.246-1.932-2.516l27.97-104.064Z" fill="url(#logoGrad)" filter="url(#logoGlow)"/>
         </svg>
       </div>
+      <!-- Orbital rings -->
+      <div class="absolute inset-0 pointer-events-none" style="transform-style: preserve-3d;">
+        <div class="absolute inset-[-20%] rounded-full border border-zera-orange/10 animate-spin" style="animation-duration: 20s;"></div>
+        <div class="absolute inset-[-35%] rounded-full border border-zera-orange/5 animate-spin" style="animation-duration: 30s; animation-direction: reverse;"></div>
+      </div>
     </div>
     
     <!-- Stats teaser -->
-    <div class="flex items-center justify-center gap-2 text-white/40 reveal-item">
+    <div class="flex items-center justify-center gap-2 text-white/40 reveal-item" data-reveal>
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
       </svg>
-      <span class="text-sm font-medium">800+ wallets - Create yours</span>
+      <span class="text-sm font-medium">900+ wallets - <a href="https://visionhub.ch/" target="_blank" rel="noopener noreferrer" class="text-zera-orange hover:underline">Create yours</a></span>
     </div>
   </div>
   
   <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
     <span class="text-xs uppercase tracking-widest text-white/50">Scroll</span>
-    <svg class="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-    </svg>
+    <div class="w-6 h-10 rounded-full border border-white/30 flex items-start justify-center p-2">
+      <div class="w-1.5 h-1.5 rounded-full bg-white/70 animate-bounce"></div>
+    </div>
   </div>
 </section>
 
@@ -107,13 +112,17 @@
       ease: 'none',
     });
 
-    // Floating animation
-    gsap.to(logo3d, {
-      y: -20,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: 'power1.inOut',
+    // Mouse tilt effect
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      gsap.to(logo3d, {
+        rotateY: x,
+        rotateX: -y,
+        duration: 0.8,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
     });
   }
 
@@ -122,20 +131,20 @@
   gsap.from(heroWords, {
     y: 120,
     opacity: 0,
-    duration: 1.2,
-    stagger: 0.15,
+    duration: 1.4,
+    stagger: 0.2,
     ease: 'power4.out',
-    delay: 0.3,
+    delay: 0.5,
   });
 
   // Reveal animations
-  const revealItems = document.querySelectorAll('.reveal-item');
+  const revealItems = document.querySelectorAll('#hero [data-reveal]');
   revealItems.forEach((item, i) => {
     gsap.from(item, {
-      y: 40,
+      y: 50,
       opacity: 0,
-      duration: 0.8,
-      delay: 0.8 + i * 0.1,
+      duration: 1,
+      delay: 1 + i * 0.15,
       ease: 'power3.out',
     });
   });

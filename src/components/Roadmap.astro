@@ -1,0 +1,112 @@
+---
+// ZERA Roadmap / Timeline
+const milestones = [
+  {
+    phase: '01',
+    title: 'Genesis',
+    date: '2024',
+    description: 'ZERA Network genesis block. Community-governed launch with initial treasury allocation and validator set.',
+    completed: true,
+  },
+  {
+    phase: '02',
+    title: 'Testnet & WASM Engine',
+    date: '2024',
+    description: 'Public testnet release with WASM-powered smart contract engine. Developer tooling and documentation.',
+    completed: true,
+  },
+  {
+    phase: '03',
+    title: 'Mainnet Launch',
+    date: '2025',
+    description: 'Mainnet activation with on-chain governance, treasury enforcement, and decentralized proposal execution.',
+    completed: true,
+  },
+  {
+    phase: '04',
+    title: 'Solana Bridge',
+    date: '2025',
+    description: 'Cross-chain bridge to Solana enabling fast, low-cost transactions and DeFi interoperability.',
+    completed: true,
+  },
+  {
+    phase: '05',
+    title: 'Security Audit',
+    date: '2025',
+    description: 'SolidProof completed comprehensive audit of ZERA Network and bridge contracts.',
+    completed: true,
+  },
+  {
+    phase: '06',
+    title: 'Ecosystem Growth',
+    date: '2025+',
+    description: 'Developer grants, dApp ecosystem expansion, and advanced governance features.',
+    completed: false,
+  },
+];
+---
+
+<section id="roadmap" class="relative py-32 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-20">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zera-orange/10 border border-zera-orange/20 text-zera-orange text-xs font-medium mb-4">
+        Journey
+      </div>
+      <h2 class="font-display font-bold text-4xl md:text-5xl reveal-text">ZERA <span class="gradient-text">Timeline</span></h2>
+    </div>
+    
+    <div class="relative">
+      <!-- Vertical line -->
+      <div class="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-zera-orange/50 via-zera-orange/20 to-transparent"></div>
+      
+      <div class="space-y-16">
+        {milestones.map((milestone, i) => (
+          <div class={`relative flex items-start gap-8 ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} reveal-timeline`}>
+            <!-- Content -->
+            <div class={`flex-1 md:text-right ${i % 2 === 0 ? '' : 'md:text-left'}`}>
+              <div class={`glass rounded-2xl p-6 md:p-8 border border-white/10 hover:border-zera-orange/20 transition-all duration-500 group ${milestone.completed ? '' : 'opacity-70'}`}>
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="font-display font-bold text-4xl text-white/10 group-hover:text-zera-orange/30 transition-colors">{milestone.phase}</span>
+                  <span class="text-xs text-white/30 font-mono">{milestone.date}</span>
+                </div>
+                <h3 class="font-display font-bold text-xl mb-2 group-hover:text-zera-orange transition-colors">{milestone.title}</h3>
+                <p class="text-white/50 text-sm leading-relaxed">{milestone.description}</p>
+              </div>
+            </div>
+            
+            <!-- Dot -->
+            <div class="relative flex-shrink-0 w-12 h-12 flex items-center justify-center z-10">
+              <div class={`w-4 h-4 rounded-full border-2 ${milestone.completed ? 'bg-zera-orange border-zera-orange shadow-[0_0_15px_rgba(255,77,0,0.5)]' : 'bg-transparent border-white/20'} transition-all duration-500`}></div>
+            </div>
+            
+            <!-- Spacer for alternating layout -->
+            <div class="hidden md:block flex-1"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const items = document.querySelectorAll('.reveal-timeline');
+  items.forEach((item, i) => {
+    const isEven = i % 2 === 0;
+    gsap.from(item, {
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      x: isEven ? -50 : 50,
+      opacity: 0,
+      duration: 0.9,
+      delay: 0.1,
+      ease: 'power3.out',
+    });
+  });
+</script>

@@ -28,7 +28,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Lenis handles this */
 }
 
 body {
@@ -45,14 +45,14 @@ body {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--color-zera-black);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-zera-orange);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 /* Neon glow utilities */
@@ -72,17 +72,17 @@ body {
   background-clip: text;
 }
 
-/* Magnetic button effect placeholder */
+/* Magnetic button effect */
 .magnetic-btn {
   transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Glass effect */
+/* Glass effect - enhanced */
 .glass {
   background: rgba(10, 10, 10, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 77, 0, 0.1);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 77, 0, 0.08);
 }
 
 /* Section reveal base */
@@ -93,6 +93,45 @@ body {
 
 /* Dot pattern background */
 .dot-pattern {
-  background-image: radial-gradient(rgba(255, 77, 0, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 77, 0, 0.12) 1px, transparent 1px);
   background-size: 32px 32px;
+}
+
+/* Text reveal animation helper */
+.text-reveal-word {
+  display: inline-block;
+  overflow: hidden;
+}
+.text-reveal-word span {
+  display: inline-block;
+  transform: translateY(110%);
+}
+
+/* Smooth image loading */
+img {
+  transition: opacity 0.3s ease;
+}
+img[loading] {
+  opacity: 0;
+}
+img.loaded {
+  opacity: 1;
+}
+
+/* Focus states for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-zera-orange);
+  outline-offset: 2px;
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

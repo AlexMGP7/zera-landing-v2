@@ -4,11 +4,13 @@ import '../styles/global.css';
 export interface Props {
   title?: string;
   description?: string;
+  image?: string;
 }
 
 const { 
   title = "ZERA Network - Community-Governed. Treasury-Supported.", 
-  description = "ZERA Network is a 3rd generation blockchain that enables application development through a treasury-supported, collective governance protocol."
+  description = "ZERA Network is a 3rd generation blockchain that enables application development through a treasury-supported, collective governance protocol.",
+  image = "/og-image.jpg"
 } = Astro.props;
 ---
 
@@ -19,21 +21,103 @@ const {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <meta name="theme-color" content="#030201" />
+  
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.zerafile.io" />
+  
+  <!-- Preload critical fonts -->
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacegrotesk/v16/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj7oUXskPMBBSSJLm2E.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2" as="font" type="font/woff2" crossorigin />
+  
+  <!-- DNS Prefetch -->
+  <link rel="dns-prefetch" href="https://zerascan.io" />
+  <link rel="dns-prefetch" href="https://solscan.io" />
+  
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
+  <meta property="og:image" content={image} />
+  <meta property="og:site_name" content="ZERA Network" />
+  
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <link rel="icon" type="image/svg+xml" href="/logo-zera.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <meta name="twitter:image" content={image} />
+  
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <link rel="icon" type="image/svg+xml" href="/logo-zera.svg" />
   <title>{title}</title>
+  
+  <style is:inline>
+    /* Critical CSS for no-FOUC */
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+    .lenis.lenis-stopped { overflow: hidden; }
+    
+    /* Grain overlay */
+    .grain-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px;
+    }
+    
+    /* Loading state */
+    body.loading { overflow: hidden; }
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 10001;
+      background: #030201;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s cubic-bezier(0.76, 0, 0.24, 1), visibility 0.8s;
+    }
+    .page-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* 3D Scroll effects base */
+    .perspective-container {
+      perspective: 1200px;
+      perspective-origin: 50% 50%;
+    }
+    
+    .preserve-3d {
+      transform-style: preserve-3d;
+    }
+  </style>
 </head>
 <body class="bg-zera-black text-white antialiased">
-  <!-- Grain overlay -->
-  <div class="fixed inset-0 z-[60] pointer-events-none opacity-[0.03]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E'); background-repeat: repeat; background-size: 128px;"></div>
+  <!-- Page Loader -->
+  <div id="page-loader" class="page-loader">
+    <svg viewBox="0 0 239 304" class="w-16 h-16 animate-pulse" fill="none">
+      <defs>
+        <linearGradient id="loaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff4d00"/>
+          <stop offset="100%" stop-color="#ffa500"/>
+        </linearGradient>
+      </defs>
+      <path d="M177.642 20.46c.523-1.959-1.865-3.363-3.322-1.954L19.558 168.062c-1.293 1.249-.409 3.438 1.39 3.438h64.89c2.047 0 3.493 2.006 2.846 3.949l-35.574 106.722c-.664 1.99 1.793 3.529 3.294 2.064l158.826-155.089c1.924-1.879.594-5.146-2.096-5.146h-60.53c-1.314 0-2.271-1.246-1.932-2.516l27.97-104.064Z" fill="url(#loaderGrad)"/>
+    </svg>
+  </div>
+  
+  <!-- Grain Overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
   
   <!-- Mouse spotlight -->
   <div id="mouse-spotlight" class="fixed inset-0 z-[55] pointer-events-none opacity-0 transition-opacity duration-500" style="background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,77,0,0.06), transparent 40%);"></div>
@@ -41,18 +125,146 @@ const {
   <slot />
   
   <script>
-    const spotlight = document.getElementById('mouse-spotlight');
-    let mouseTimeout;
+    // Hide loader
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      if (loader) {
+        setTimeout(() => loader.classList.add('hidden'), 400);
+      }
+    });
+  </script>
+  
+  <script>
+    import Lenis from 'lenis';
     
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    });
+    
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+    
+    lenis.on('scroll', () => {
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.update();
+      }
+    });
+    
+    window.lenis = lenis;
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const href = anchor.getAttribute('href');
+        if (href && href !== '#') {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          if (target) {
+            lenis.scrollTo(target, { offset: -100 });
+          }
+        }
+      });
+    });
+  </script>
+  
+  <script>
+    // Mouse spotlight (kept, no custom cursor)
+    let mouseTimeout;
     document.addEventListener('mousemove', (e) => {
       document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
       document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+      const spotlight = document.getElementById('mouse-spotlight');
       if (spotlight) spotlight.style.opacity = '1';
       
       clearTimeout(mouseTimeout);
       mouseTimeout = window.setTimeout(() => {
         if (spotlight) spotlight.style.opacity = '0';
       }, 2000);
+    });
+  </script>
+  
+  <script>
+    // 3D Scroll effects
+    import gsap from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // 3D Card fly-in effect
+    const cards3D = document.querySelectorAll('[data-3d-card]');
+    cards3D.forEach((card, i) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 90%',
+          end: 'top 40%',
+          scrub: 1,
+        },
+        rotateX: 35,
+        rotateY: i % 2 === 0 ? -15 : 15,
+        translateZ: -300,
+        scale: 0.85,
+        opacity: 0.3,
+        ease: 'none',
+      });
+    });
+    
+    // 3D Text tilt on scroll
+    const text3D = document.querySelectorAll('[data-3d-text]');
+    text3D.forEach((text) => {
+      gsap.from(text, {
+        scrollTrigger: {
+          trigger: text,
+          start: 'top 85%',
+          end: 'top 30%',
+          scrub: 1,
+        },
+        rotateX: 25,
+        translateZ: -150,
+        opacity: 0.2,
+        ease: 'none',
+      });
+    });
+    
+    // Parallax depth layers
+    const depthLayers = document.querySelectorAll('[data-depth]');
+    depthLayers.forEach((layer) => {
+      const depth = parseFloat(layer.dataset.depth || '0.1');
+      gsap.to(layer, {
+        scrollTrigger: {
+          trigger: layer.parentElement,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        },
+        y: () => -200 * depth,
+        ease: 'none',
+      });
+    });
+    
+    // Section perspective tilt based on scroll
+    const perspectiveSections = document.querySelectorAll('[data-perspective-section]');
+    perspectiveSections.forEach((section) => {
+      gsap.fromTo(section, 
+        { rotateX: 8 },
+        {
+          scrollTrigger: {
+            trigger: section,
+            start: 'top bottom',
+            end: 'center center',
+            scrub: 1,
+          },
+          rotateX: 0,
+          ease: 'none',
+        }
+      );
     });
   </script>
 </body>
