@@ -135,3 +135,94 @@ button:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Responsive fixes ─────────────────────────────────────────────────────── */
+
+/* Prevent horizontal overflow on mobile */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* LiveStatsBar scroll on mobile */
+@media (max-width: 768px) {
+  #live-stats .grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+  }
+  #live-stats .grid > * {
+    flex: 0 0 auto;
+    min-width: 140px;
+    scroll-snap-align: start;
+  }
+  #live-stats .grid::-webkit-scrollbar { display: none; }
+}
+
+/* Hero title responsive */
+@media (max-width: 480px) {
+  #hero h1 {
+    font-size: clamp(2.2rem, 11vw, 4rem) !important;
+    line-height: 1.1 !important;
+  }
+}
+
+/* Navbar mobile — ensure menu is above content */
+#mobile-menu {
+  z-index: 100;
+}
+
+/* Cards: ensure text is always visible (no stuck opacity) */
+[data-3d-card] {
+  will-change: transform, opacity;
+}
+
+/* Roadmap timeline — mobile layout */
+@media (max-width: 768px) {
+  #roadmap .roadmap-item {
+    padding-left: 3rem !important;
+    padding-right: 0 !important;
+    text-align: left !important;
+  }
+  #roadmap .roadmap-item:nth-child(even) {
+    padding-left: 3rem !important;
+  }
+}
+
+/* GovernanceFeed — mobile */
+@media (max-width: 640px) {
+  #governance-feed .proposal-bar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* EcosystemGrid — 2 cols on mobile */
+@media (max-width: 640px) {
+  #ecosystem .partners-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Section padding reduction on mobile */
+@media (max-width: 768px) {
+  section {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+}
+
+/* Prevent 3D transforms from causing overflow on mobile */
+@media (max-width: 768px) {
+  [style*="perspective"] {
+    perspective: none !important;
+  }
+  [style*="transform-style: preserve-3d"],
+  .preserve-3d {
+    transform-style: flat !important;
+  }
+}

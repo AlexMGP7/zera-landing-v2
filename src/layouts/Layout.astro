@@ -105,15 +105,7 @@ const {
 <body class="bg-zera-black text-white antialiased">
   <!-- Page Loader -->
   <div id="page-loader" class="page-loader">
-    <svg viewBox="0 0 239 304" class="w-16 h-16 animate-pulse" fill="none">
-      <defs>
-        <linearGradient id="loaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#ff4d00"/>
-          <stop offset="100%" stop-color="#ffa500"/>
-        </linearGradient>
-      </defs>
-      <path d="M177.642 20.46c.523-1.959-1.865-3.363-3.322-1.954L19.558 168.062c-1.293 1.249-.409 3.438 1.39 3.438h64.89c2.047 0 3.493 2.006 2.846 3.949l-35.574 106.722c-.664 1.99 1.793 3.529 3.294 2.064l158.826-155.089c1.924-1.879.594-5.146-2.096-5.146h-60.53c-1.314 0-2.271-1.246-1.932-2.516l27.97-104.064Z" fill="url(#loaderGrad)"/>
-    </svg>
+    <img src="/zera-landing-v2/logos/zera-logo-nav.png" alt="ZERA" class="w-16 h-16 animate-pulse object-contain" style="filter: drop-shadow(0 0 16px rgba(255,77,0,0.7));" />
   </div>
   
   <!-- Grain Overlay -->
@@ -192,43 +184,51 @@ const {
   </script>
   
   <script>
-    // 3D Scroll effects — SUAVE y legible
+    // 3D Scroll effects — clean one-shot reveal (no scrub, no stuck opacity)
     import gsap from 'gsap';
     import { ScrollTrigger } from 'gsap/ScrollTrigger';
     gsap.registerPlugin(ScrollTrigger);
 
-    // Cards: sutil elevación 3D al entrar en viewport
+    // Cards: clean fade+rise with subtle 3D entry
     const cards3D = document.querySelectorAll('[data-3d-card]');
     cards3D.forEach((card, i) => {
-      gsap.from(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 92%',
-          end: 'top 55%',
-          scrub: 1,
+      gsap.set(card, { opacity: 0, y: 40, rotateX: 6, scale: 0.98 });
+      ScrollTrigger.create({
+        trigger: card,
+        start: 'top 88%',
+        once: true,
+        onEnter: () => {
+          gsap.to(card, {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            scale: 1,
+            duration: 0.7,
+            delay: (i % 3) * 0.08,
+            ease: 'power3.out',
+            clearProps: 'transform',
+          });
         },
-        y: 60,
-        rotateX: 8,
-        opacity: 0.6,
-        scale: 0.97,
-        ease: 'none',
       });
     });
 
-    // Textos: ligera inclinación al aparecer
+    // Texts: clean fade+rise
     const text3D = document.querySelectorAll('[data-3d-text]');
     text3D.forEach((text) => {
-      gsap.from(text, {
-        scrollTrigger: {
-          trigger: text,
-          start: 'top 90%',
-          end: 'top 60%',
-          scrub: 1,
+      gsap.set(text, { opacity: 0, y: 30 });
+      ScrollTrigger.create({
+        trigger: text,
+        start: 'top 88%',
+        once: true,
+        onEnter: () => {
+          gsap.to(text, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            clearProps: 'transform',
+          });
         },
-        y: 40,
-        rotateX: 6,
-        opacity: 0.7,
-        ease: 'none',
       });
     });
   </script>
