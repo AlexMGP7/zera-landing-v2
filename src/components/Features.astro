@@ -72,3 +72,25 @@
     });
   });
 </script>
+
+<script>
+  // 3D tilt on feature cards
+  const featureCards = document.querySelectorAll('#features .reveal-card') as NodeListOf<HTMLElement>;
+  featureCards.forEach((card) => {
+    const MAX = 10;
+    card.style.transition = 'transform 0.08s ease-out, box-shadow 0.08s ease-out';
+    card.style.willChange = 'transform';
+    card.addEventListener('mousemove', (e: MouseEvent) => {
+      const r = card.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+      const dy = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+      card.style.transform = `perspective(600px) rotateX(${-dy * MAX}deg) rotateY(${dx * MAX}deg) translateZ(8px)`;
+      card.style.boxShadow = `0 ${16 + dy * 8}px ${32 + Math.abs(dy) * 16}px rgba(255,77,0,${0.1 + Math.abs(dx) * 0.08})`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      card.style.boxShadow = '';
+    });
+  });
+</script>
+

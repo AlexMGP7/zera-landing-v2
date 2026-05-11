@@ -2,16 +2,22 @@
 ---
 
 <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-  <!-- Gradient orb behind for fallback -->
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full blur-3xl pointer-events-none opacity-60" style="background: radial-gradient(circle, rgba(255,77,0,0.18) 0%, rgba(255,77,0,0.04) 40%, transparent 70%);"></div>
-  
+  <!-- Deep space radial gradient -->
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,77,0,0.12) 0%, rgba(255,77,0,0.04) 40%, transparent 70%);"></div>
+
+  <!-- Animated grid lines -->
+  <div class="absolute inset-0 pointer-events-none opacity-[0.04]" style="background-image: linear-gradient(rgba(255,77,0,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,77,0,0.8) 1px, transparent 1px); background-size: 80px 80px;"></div>
+
+  <!-- Scan line sweep -->
+  <div id="scan-line" class="absolute left-0 right-0 h-[2px] pointer-events-none" style="background: linear-gradient(90deg, transparent, rgba(255,77,0,0.4), transparent); top: 0;"></div>
+
   <div class="relative z-10 max-w-7xl mx-auto px-6 py-32 text-center">
     <!-- Badge -->
     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-zera-orange/20 mb-10 reveal-item" data-reveal>
       <span class="w-2 h-2 rounded-full bg-zera-orange animate-pulse shadow-[0_0_8px_rgba(255,77,0,0.8)]"></span>
       <span class="text-sm font-medium text-white/80 tracking-wide">ZERA Network</span>
     </div>
-    
+
     <!-- Main Title -->
     <h1 data-3d-text class="font-display font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-[1.05] tracking-tight mb-8 preserve-3d">
       <span class="block hero-line overflow-hidden">
@@ -21,12 +27,12 @@
         <span class="inline-block hero-word gradient-text">Treasury-Supported.</span>
       </span>
     </h1>
-    
+
     <!-- Subtitle -->
     <p class="max-w-2xl mx-auto text-lg md:text-xl text-white/50 mb-14 reveal-item leading-relaxed" data-reveal>
       The ZERA Network is a modern, governance-first blockchain platform designed for high-performance, developer-friendly Web3 applications.
     </p>
-    
+
     <!-- Buttons -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24 reveal-item" data-reveal>
       <a href="https://t.me/zeranetwork" target="_blank" rel="noopener noreferrer" class="group relative px-8 py-4 rounded-full bg-zera-orange text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,77,0,0.5)] hover:scale-105" data-magnetic>
@@ -38,40 +44,80 @@
         </span>
         <div class="absolute inset-0 bg-gradient-to-r from-zera-orange-light to-zera-amber opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
       </a>
-      
+
       <a href="http://chatgpt.com/g/g-68a96e8daadc8191945582a504f0efe1-zera-gpt" target="_blank" rel="noopener noreferrer" class="px-8 py-4 rounded-full glass border border-white/10 text-white font-semibold text-lg hover:border-zera-orange/50 hover:bg-zera-orange/5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,77,0,0.2)]" data-magnetic>
         Try Zera GPT
       </a>
     </div>
-    
-    <!-- 3D Logo with enhanced glow -->
-    <div class="relative w-56 h-56 md:w-72 md:h-72 mx-auto mb-16" style="perspective: 1000px;">
-      <div id="logo-3d" class="w-full h-full transition-transform duration-100 ease-out" style="transform-style: preserve-3d;">
-        <svg viewBox="0 0 239 304" class="w-full h-full drop-shadow-[0_0_30px_rgba(255,77,0,0.5)]" fill="none">
-          <defs>
-            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ff4d00"/>
-              <stop offset="100%" stop-color="#ffa500"/>
-            </linearGradient>
-            <filter id="logoGlow">
-              <feGaussianBlur stdDeviation="10" result="blur"/>
-              <feMerge>
-                <feMergeNode in="blur"/>
-                <feMergeNode in="blur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-          <path d="M177.642 20.46c.523-1.959-1.865-3.363-3.322-1.954L19.558 168.062c-1.293 1.249-.409 3.438 1.39 3.438h64.89c2.047 0 3.493 2.006 2.846 3.949l-35.574 106.722c-.664 1.99 1.793 3.529 3.294 2.064l158.826-155.089c1.924-1.879.594-5.146-2.096-5.146h-60.53c-1.314 0-2.271-1.246-1.932-2.516l27.97-104.064Z" fill="url(#logoGrad)" filter="url(#logoGlow)"/>
+
+    <!-- 3D Logo — multi-layer depth effect -->
+    <div id="logo-scene" class="relative w-56 h-56 md:w-72 md:h-72 mx-auto mb-16" style="perspective: 900px;">
+      <!-- Outer glow ring -->
+      <div id="logo-ring-outer" class="absolute inset-[-20px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(255,77,0,0.15) 0%, transparent 70%); transform-style: preserve-3d;"></div>
+
+      <!-- Shadow layer (depth illusion) -->
+      <div id="logo-shadow" class="absolute inset-0 flex items-center justify-center pointer-events-none" style="transform: translateZ(-40px) translateY(12px) scale(0.88); transform-style: preserve-3d; filter: blur(18px); opacity: 0.45;">
+        <svg viewBox="0 0 239 304" class="w-full h-full" fill="none">
+          <path d="M177.642 20.46c.523-1.959-1.865-3.363-3.322-1.954L19.558 168.062c-1.293 1.249-.409 3.438 1.39 3.438h64.89c2.047 0 3.493 2.006 2.846 3.949l-35.574 106.722c-.664 1.99 1.793 3.529 3.294 2.064l158.826-155.089c1.924-1.879.594-5.146-2.096-5.146h-60.53c-1.314 0-2.271-1.246-1.932-2.516l27.97-104.064Z" fill="rgba(255,77,0,0.6)"/>
         </svg>
       </div>
-      <!-- Orbital rings -->
-      <div class="absolute inset-0 pointer-events-none" style="transform-style: preserve-3d;">
-        <div class="absolute inset-[-20%] rounded-full border border-zera-orange/10 animate-spin" style="animation-duration: 20s;"></div>
-        <div class="absolute inset-[-35%] rounded-full border border-zera-orange/5 animate-spin" style="animation-duration: 30s; animation-direction: reverse;"></div>
+
+      <!-- Main 3D logo wrapper -->
+      <div id="logo-3d" class="w-full h-full" style="transform-style: preserve-3d; transform: rotateX(0deg) rotateY(0deg);">
+        <!-- Back layer (depth) -->
+        <div class="absolute inset-0 flex items-center justify-center" style="transform: translateZ(-8px) scale(1.04); opacity: 0.3;">
+          <svg viewBox="0 0 239 304" class="w-full h-full" fill="none">
+            <path d="M177.642 20.46c.523-1.959-1.865-3.363-3.322-1.954L19.558 168.062c-1.293 1.249-.409 3.438 1.39 3.438h64.89c2.047 0 3.493 2.006 2.846 3.949l-35.574 106.722c-.664 1.99 1.793 3.529 3.294 2.064l158.826-155.089c1.924-1.879.594-5.146-2.096-5.146h-60.53c-1.314 0-2.271-1.246-1.932-2.516l27.97-104.064Z" fill="#ff4d00"/>
+          </svg>
+        </div>
+        <!-- Mid layer -->
+        <div class="absolute inset-0 flex items-center justify-center" style="transform: translateZ(-3px) scale(1.015); opacity: 0.55;">
+          <svg viewBox="0 0 239 304" class="w-full h-full" fill="none">
+            <path d="M177.642 20.46c.523-1.959-1.865-3.363-3.322-1.954L19.558 168.062c-1.293 1.249-.409 3.438 1.39 3.438h64.89c2.047 0 3.493 2.006 2.846 3.949l-35.574 106.722c-.664 1.99 1.793 3.529 3.294 2.064l158.826-155.089c1.924-1.879.594-5.146-2.096-5.146h-60.53c-1.314 0-2.271-1.246-1.932-2.516l27.97-104.064Z" fill="url(#logoGradMid)"/>
+            <defs>
+              <linearGradient id="logoGradMid" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff6b00"/>
+                <stop offset="100%" stop-color="#ffb300"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <!-- Front layer (main) -->
+        <div class="absolute inset-0 flex items-center justify-center" style="transform: translateZ(0px);">
+          <svg viewBox="0 0 239 304" class="w-full h-full" fill="none">
+            <defs>
+              <linearGradient id="logoGradFront" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff4d00"/>
+                <stop offset="50%" stop-color="#ff7a00"/>
+                <stop offset="100%" stop-color="#ffa500"/>
+              </linearGradient>
+              <filter id="logoGlowFront">
+                <feGaussianBlur stdDeviation="6" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <linearGradient id="logoSpecular" x1="0%" y1="0%" x2="60%" y2="100%">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.35)"/>
+                <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+              </linearGradient>
+            </defs>
+            <path d="M177.642 20.46c.523-1.959-1.865-3.363-3.322-1.954L19.558 168.062c-1.293 1.249-.409 3.438 1.39 3.438h64.89c2.047 0 3.493 2.006 2.846 3.949l-35.574 106.722c-.664 1.99 1.793 3.529 3.294 2.064l158.826-155.089c1.924-1.879.594-5.146-2.096-5.146h-60.53c-1.314 0-2.271-1.246-1.932-2.516l27.97-104.064Z" fill="url(#logoGradFront)" filter="url(#logoGlowFront)"/>
+            <path d="M177.642 20.46c.523-1.959-1.865-3.363-3.322-1.954L19.558 168.062c-1.293 1.249-.409 3.438 1.39 3.438h64.89c2.047 0 3.493 2.006 2.846 3.949l-35.574 106.722c-.664 1.99 1.793 3.529 3.294 2.064l158.826-155.089c1.924-1.879.594-5.146-2.096-5.146h-60.53c-1.314 0-2.271-1.246-1.932-2.516l27.97-104.064Z" fill="url(#logoSpecular)" opacity="0.6"/>
+          </svg>
+        </div>
+        <!-- Shine layer -->
+        <div id="logo-shine" class="absolute inset-0 rounded-full pointer-events-none" style="background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.18) 0%, transparent 55%); transform: translateZ(2px);"></div>
       </div>
+
+      <!-- Orbiting ring -->
+      <div id="orbit-ring" class="absolute inset-[-16px] rounded-full border border-zera-orange/20 pointer-events-none" style="transform-style: preserve-3d; transform: rotateX(70deg);"></div>
+      <!-- Orbiting dot -->
+      <div id="orbit-dot" class="absolute w-3 h-3 rounded-full bg-zera-orange shadow-[0_0_12px_rgba(255,77,0,0.9)] pointer-events-none" style="top: -6px; left: calc(50% - 6px);"></div>
     </div>
-    
+
     <!-- Stats teaser -->
     <div class="flex items-center justify-center gap-2 text-white/40 reveal-item" data-reveal>
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,7 +126,7 @@
       <span class="text-sm font-medium">900+ wallets - <a href="https://visionhub.ch/" target="_blank" rel="noopener noreferrer" class="text-zera-orange hover:underline">Create yours</a></span>
     </div>
   </div>
-  
+
   <!-- Scroll indicator -->
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
     <span class="text-xs uppercase tracking-widest text-white/50">Scroll</span>
@@ -95,34 +141,100 @@
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
-  // Logo 3D rotation on scroll
+  // Scan line sweep
+  const scanLine = document.getElementById('scan-line');
+  if (scanLine) {
+    gsap.to(scanLine, {
+      top: '100%',
+      duration: 4,
+      repeat: -1,
+      ease: 'none',
+      delay: 1,
+    });
+  }
+
+  // Logo 3D mouse-tracking tilt
+  const logoScene = document.getElementById('logo-scene');
   const logo3d = document.getElementById('logo-3d');
-  if (logo3d) {
-    gsap.to(logo3d, {
+  const logoShadow = document.getElementById('logo-shadow');
+  const logoShine = document.getElementById('logo-shine');
+
+  let targetRotX = 0;
+  let targetRotY = 0;
+  let currentRotX = 0;
+  let currentRotY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx;
+    const dy = (e.clientY - cy) / cy;
+    targetRotY = dx * 22;
+    targetRotX = -dy * 18;
+
+    if (logoShine) {
+      const sx = 35 + dx * 20;
+      const sy = 30 + dy * 20;
+      logoShine.style.background = `radial-gradient(circle at ${sx}% ${sy}%, rgba(255,255,255,0.22) 0%, transparent 55%)`;
+    }
+  });
+
+  function lerpLogo() {
+    currentRotX += (targetRotX - currentRotX) * 0.06;
+    currentRotY += (targetRotY - currentRotY) * 0.06;
+    if (logo3d) {
+      logo3d.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
+    }
+    if (logoShadow) {
+      const shadowX = currentRotY * 0.6;
+      const shadowY = 12 + currentRotX * 0.4;
+      logoShadow.style.transform = `translateZ(-40px) translateX(${shadowX}px) translateY(${shadowY}px) scale(0.88)`;
+    }
+    requestAnimationFrame(lerpLogo);
+  }
+  lerpLogo();
+
+  // Floating animation
+  if (logoScene) {
+    gsap.to(logoScene, {
+      y: -18,
+      duration: 3.2,
+      repeat: -1,
+      yoyo: true,
+      ease: 'power1.inOut',
+    });
+  }
+
+  // Orbiting dot
+  const orbitDot = document.getElementById('orbit-dot');
+  if (orbitDot && logoScene) {
+    const radius = logoScene.offsetWidth / 2 + 16;
+    let angle = 0;
+    function animateOrbit() {
+      angle += 0.012;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+      orbitDot.style.transform = `translate(${x}px, ${y}px)`;
+      orbitDot.style.left = `calc(50% - 6px)`;
+      orbitDot.style.top = `calc(50% - 6px)`;
+      requestAnimationFrame(animateOrbit);
+    }
+    animateOrbit();
+  }
+
+  // Scroll: logo fades and scales down
+  if (logoScene) {
+    gsap.to(logoScene, {
       scrollTrigger: {
         trigger: '#hero',
         start: 'top top',
         end: 'bottom top',
         scrub: 1,
       },
-      rotateY: 360,
-      rotateX: 20,
-      scale: 0.5,
+      scale: 0.6,
       opacity: 0,
+      y: 40,
       ease: 'none',
-    });
-
-    // Mouse tilt effect
-    document.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      gsap.to(logo3d, {
-        rotateY: x,
-        rotateX: -y,
-        duration: 0.8,
-        ease: 'power2.out',
-        overwrite: 'auto',
-      });
     });
   }
 
