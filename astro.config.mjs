@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://AlexMGP7.github.io',
   base: '/zera-landing-v2',
+  trailingSlash: 'always',
   vite: {
     plugins: [tailwindcss()],
     build: {
