@@ -12,7 +12,7 @@
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
-  const particleCount = 380;
+  const particleCount = 200;
   const positions = new Float32Array(particleCount * 3);
   const colors = new Float32Array(particleCount * 3);
   const sizes = new Float32Array(particleCount);
@@ -64,7 +64,7 @@
 
   // Connection lines
   const lineGeometry = new THREE.BufferGeometry();
-  const maxLines = 600;
+  const maxLines = 300;
   const linePositions = new Float32Array(maxLines * 6);
   const lineColors = new Float32Array(maxLines * 6);
   lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
@@ -95,7 +95,7 @@
   });
 
   const clock = new THREE.Clock();
-  const connectionDist = 3.8;
+  const connectionDist = 2.6;
 
   function updateConnections() {
     let lineIdx = 0;
@@ -139,10 +139,20 @@
   }
 
   let frameCount = 0;
+  let canvasVisible = true;
+  // Pause Three.js loop when canvas is not in viewport
+  const canvasObs = new IntersectionObserver((entries) => {
+    canvasVisible = entries[0].isIntersecting;
+  }, { threshold: 0 });
+  canvasObs.observe(canvas);
+
   function animate() {
     requestAnimationFrame(animate);
     const elapsed = clock.getElapsedTime();
     frameCount++;
+
+    // Update connections every 2 frames (halves O(n²) cost)
+    if (frameCount % 2 === 0) updateConnections();
 
     mouseX += (targetMouseX - mouseX) * 0.03;
     mouseY += (targetMouseY - mouseY) * 0.03;

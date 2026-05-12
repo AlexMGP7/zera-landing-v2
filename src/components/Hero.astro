@@ -133,48 +133,61 @@
     gsap.to(scanLine, { top: '100%', duration: 4, repeat: -1, ease: 'none', delay: 1 });
   }
 
-  // Logo 3D mouse-tracking tilt
+  // ── Hero animations: single unified RAF loop ──────────────────────────
+  // lerpLogo + animateOrbit merged into one loop that pauses when Hero
+  // is scrolled out of view (saves GPU when user is reading lower sections)
   const logoScene = document.getElementById('logo-scene');
   const logo3d = document.getElementById('logo-3d');
+  const orbitDot = document.getElementById('orbit-dot');
+
   let targetRotX = 0, targetRotY = 0, currentRotX = 0, currentRotY = 0;
+  let orbitAngle = 0;
+  let heroRafId: number | null = null;
+  let heroVisible = true;
+
+  // Pause loop when Hero leaves viewport
+  const heroEl = document.getElementById('hero');
+  if (heroEl) {
+    const heroObs = new IntersectionObserver((entries) => {
+      heroVisible = entries[0].isIntersecting;
+      if (heroVisible && !heroRafId) heroRafId = requestAnimationFrame(heroLoop);
+    }, { threshold: 0 });
+    heroObs.observe(heroEl);
+  }
 
   document.addEventListener('mousemove', (e) => {
+    if (!heroVisible) return;
     const cx = window.innerWidth / 2;
     const cy = window.innerHeight / 2;
-    const dx = (e.clientX - cx) / cx;
-    const dy = (e.clientY - cy) / cy;
-    targetRotY = dx * 20;
-    targetRotX = -dy * 15;
-  });
+    targetRotY = ((e.clientX - cx) / cx) * 20;
+    targetRotX = -((e.clientY - cy) / cy) * 15;
+  }, { passive: true });
 
-  function lerpLogo() {
+  const orbitRadius = (logoScene?.offsetWidth ?? 200) / 2 + 20;
+
+  function heroLoop() {
+    if (!heroVisible) { heroRafId = null; return; }
+
+    // LERP logo tilt
     currentRotX += (targetRotX - currentRotX) * 0.06;
     currentRotY += (targetRotY - currentRotY) * 0.06;
-    if (logo3d) {
-      logo3d.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
-    }
-    requestAnimationFrame(lerpLogo);
-  }
-  lerpLogo();
+    if (logo3d) logo3d.style.transform = `rotateX(${currentRotX.toFixed(3)}deg) rotateY(${currentRotY.toFixed(3)}deg)`;
 
-  // Floating animation
+    // Orbit dot
+    orbitAngle += 0.010;
+    if (orbitDot) {
+      const ox = Math.cos(orbitAngle) * orbitRadius;
+      const oy = Math.sin(orbitAngle) * orbitRadius;
+      orbitDot.style.transform = `translate(${ox.toFixed(2)}px, ${oy.toFixed(2)}px)`;
+    }
+
+    heroRafId = requestAnimationFrame(heroLoop);
+  }
+  heroRafId = requestAnimationFrame(heroLoop);
+
+  // Floating animation via GSAP (uses CSS transform compositor, not JS RAF)
   if (logoScene) {
     gsap.to(logoScene, { y: -20, duration: 3.5, repeat: -1, yoyo: true, ease: 'power1.inOut' });
-  }
-
-  // Orbiting dot
-  const orbitDot = document.getElementById('orbit-dot');
-  if (orbitDot && logoScene) {
-    const radius = logoScene.offsetWidth / 2 + 20;
-    let angle = 0;
-    function animateOrbit() {
-      angle += 0.010;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
-      orbitDot.style.transform = `translate(${x}px, ${y}px)`;
-      requestAnimationFrame(animateOrbit);
-    }
-    animateOrbit();
   }
 
   // Scroll: logo fades and scales down
