@@ -16,8 +16,10 @@
     </div>
 
     <div class="grid md:grid-cols-2 gap-6 perspective-container">
-      <div data-3d-card class="tech-card tech-corners glass rounded-3xl p-8 md:p-10 border border-white/10 group reveal-card">
-        <div class="flex items-center justify-between mb-6">
+
+      <!-- ── MOD/01: Smart Coin Lifecycle — area chart ─────────────────── -->
+      <div data-3d-card class="feat-card tech-card tech-corners glass rounded-3xl p-8 md:p-10 border border-white/10 group reveal-card flex flex-col">
+        <div class="flex items-center justify-between mb-4">
           <div class="w-12 h-12 rounded-xl bg-zera-orange/10 flex items-center justify-center border border-zera-orange/20">
             <svg class="w-6 h-6 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -26,11 +28,22 @@
           <span class="tech-module-label">MOD / 01</span>
         </div>
         <h3 class="font-display font-bold text-2xl mb-3 tracking-tight">Smart Coin Lifecycle</h3>
-        <p class="text-white/60 leading-relaxed">ZERA's coin supply isn't managed through mining or printing — it's governed by community participation and fully enforced by the network itself.</p>
+        <p class="text-white/60 leading-relaxed mb-6">ZERA's coin supply isn't managed through mining or printing — it's governed by community participation and fully enforced by the network itself.</p>
+
+        <!-- Supply chart -->
+        <div class="mt-auto relative rounded-2xl overflow-hidden" style="background: rgba(255,77,0,0.04); border: 1px solid rgba(255,77,0,0.12);">
+          <div class="px-4 pt-3 pb-1 flex items-center gap-3">
+            <span class="text-xs font-mono" style="color: rgba(255,120,30,0.9); background: rgba(255,77,0,0.12); border: 1px solid rgba(255,77,0,0.25); padding: 2px 10px; border-radius: 999px;">
+              SUPPLY 866.6M &nbsp;·&nbsp; EPOCH <span id="feat-epoch">142</span>
+            </span>
+          </div>
+          <canvas id="supply-chart" height="140" class="w-full block"></canvas>
+        </div>
       </div>
 
-      <div data-3d-card class="tech-card tech-corners glass rounded-3xl p-8 md:p-10 border border-white/10 group reveal-card">
-        <div class="flex items-center justify-between mb-6">
+      <!-- ── MOD/02: Flexible Fees — dot grid ──────────────────────────── -->
+      <div data-3d-card class="feat-card tech-card tech-corners glass rounded-3xl p-8 md:p-10 border border-white/10 group reveal-card flex flex-col">
+        <div class="flex items-center justify-between mb-4">
           <div class="w-12 h-12 rounded-xl bg-zera-orange/10 flex items-center justify-center border border-zera-orange/20">
             <svg class="w-6 h-6 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
@@ -39,11 +52,19 @@
           <span class="tech-module-label">MOD / 02</span>
         </div>
         <h3 class="font-display font-bold text-2xl mb-3 tracking-tight">Flexible, Predictable Fees</h3>
-        <p class="text-white/60 leading-relaxed">Pay transaction fees using any approved coin — not just $ZRA. The protocol settles in $ZRA underneath.</p>
+        <p class="text-white/60 leading-relaxed mb-6">Pay transaction fees using any approved coin — not just $ZRA. The protocol settles in $ZRA underneath.</p>
+
+        <!-- Dot grid visualization -->
+        <div class="mt-auto flex items-center justify-center py-4">
+          <div id="dot-grid" class="grid gap-[6px]" style="grid-template-columns: repeat(14, 1fr);">
+            <!-- 5 × 14 = 70 dots, injected by JS -->
+          </div>
+        </div>
       </div>
 
-      <div data-3d-card class="tech-card tech-corners glass rounded-3xl p-8 md:p-10 border border-white/10 group reveal-card">
-        <div class="flex items-center justify-between mb-6">
+      <!-- ── MOD/03: Treasury — orbital system ─────────────────────────── -->
+      <div data-3d-card class="feat-card tech-card tech-corners glass rounded-3xl p-8 md:p-10 border border-white/10 group reveal-card flex flex-col">
+        <div class="flex items-center justify-between mb-4">
           <div class="w-12 h-12 rounded-xl bg-zera-orange/10 flex items-center justify-center border border-zera-orange/20">
             <svg class="w-6 h-6 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
@@ -52,11 +73,30 @@
           <span class="tech-module-label">MOD / 03</span>
         </div>
         <h3 class="font-display font-bold text-2xl mb-3 tracking-tight">Treasury-Supported Network</h3>
-        <p class="text-white/60 leading-relaxed">Funded through network activity and potentially other governance-implemented mechanisms. Disbursed only by vote.</p>
+        <p class="text-white/60 leading-relaxed mb-6">Funded through network activity and potentially other governance-implemented mechanisms. Disbursed only by vote.</p>
+
+        <!-- Orbital system -->
+        <div class="mt-auto flex items-center justify-center" style="height: 200px;">
+          <div class="orbital-system relative flex items-center justify-center" style="width: 220px; height: 200px;">
+            <!-- Ellipse orbits (CSS drawn) -->
+            <div class="orbit-ring" style="width:110px;height:55px;top:50%;left:50%;transform:translate(-50%,-50%) rotateX(60deg) rotateZ(-10deg);"></div>
+            <div class="orbit-ring" style="width:165px;height:80px;top:50%;left:50%;transform:translate(-50%,-50%) rotateX(60deg) rotateZ(20deg);"></div>
+            <div class="orbit-ring" style="width:210px;height:105px;top:50%;left:50%;transform:translate(-50%,-50%) rotateX(60deg) rotateZ(-30deg);"></div>
+            <!-- Satellite coins -->
+            <div class="satellite" style="--orbit-w:110px;--orbit-h:55px;--orbit-rz:-10deg;--orbit-dur:3.5s;--orbit-delay:0s;">¢</div>
+            <div class="satellite" style="--orbit-w:165px;--orbit-h:80px;--orbit-rz:20deg;--orbit-dur:5s;--orbit-delay:-1.5s;">¢</div>
+            <div class="satellite" style="--orbit-w:165px;--orbit-h:80px;--orbit-rz:20deg;--orbit-dur:5s;--orbit-delay:-3.5s;">¢</div>
+            <div class="satellite" style="--orbit-w:210px;--orbit-h:105px;--orbit-rz:-30deg;--orbit-dur:7s;--orbit-delay:-2s;">¢</div>
+            <div class="satellite" style="--orbit-w:210px;--orbit-h:105px;--orbit-rz:-30deg;--orbit-dur:7s;--orbit-delay:-5s;">¢</div>
+            <!-- Central Z coin -->
+            <div class="orbital-center">Z</div>
+          </div>
+        </div>
       </div>
 
-      <div data-3d-card class="tech-card tech-corners glass rounded-3xl p-8 md:p-10 border border-white/10 group reveal-card">
-        <div class="flex items-center justify-between mb-6">
+      <!-- ── MOD/04: Governance — lightning bolt ────────────────────────── -->
+      <div data-3d-card class="feat-card tech-card tech-corners glass rounded-3xl p-8 md:p-10 border border-white/10 group reveal-card flex flex-col">
+        <div class="flex items-center justify-between mb-4">
           <div class="w-12 h-12 rounded-xl bg-zera-orange/10 flex items-center justify-center border border-zera-orange/20">
             <svg class="w-6 h-6 text-zera-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -65,35 +105,318 @@
           <span class="tech-module-label">MOD / 04</span>
         </div>
         <h3 class="font-display font-bold text-2xl mb-3 tracking-tight">Decentralized Governance</h3>
-        <p class="text-white/60 leading-relaxed">Governance is entirely on-chain, with every decision made through transparent proposals, verifiable voting, and autonomous execution.</p>
+        <p class="text-white/60 leading-relaxed mb-6">Governance is entirely on-chain, with every decision made through transparent proposals, verifiable voting, and autonomous execution.</p>
+
+        <!-- Glowing lightning bolt -->
+        <div class="mt-auto flex items-center justify-center" style="height: 180px;">
+          <div class="lightning-wrap relative flex items-center justify-center">
+            <!-- Glow layer -->
+            <div class="lightning-glow"></div>
+            <svg class="lightning-bolt relative z-10" viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:80px;height:130px;">
+              <defs>
+                <linearGradient id="bolt-grad" x1="50%" y1="0%" x2="50%" y2="100%">
+                  <stop offset="0%" stop-color="#fff" stop-opacity="1"/>
+                  <stop offset="50%" stop-color="#ffcc80" stop-opacity="0.95"/>
+                  <stop offset="100%" stop-color="#ff6a00" stop-opacity="0.85"/>
+                </linearGradient>
+                <filter id="bolt-glow">
+                  <feGaussianBlur stdDeviation="6" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <path d="M52 4 L18 68 L38 68 L28 126 L62 54 L42 54 Z" fill="url(#bolt-grad)" filter="url(#bolt-glow)"/>
+            </svg>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>
+
+<style>
+  /* Orbital system */
+  .orbital-system { perspective: 600px; }
+
+  .orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 120, 30, 0.35);
+    pointer-events: none;
+  }
+
+  .orbital-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,90,0,0.9) 0%, rgba(200,50,0,0.7) 100%);
+    border: 2px solid rgba(255,120,30,0.6);
+    display: flex; align-items: center; justify-content: center;
+    font-family: ui-monospace, monospace;
+    font-weight: 700; font-size: 18px;
+    color: #fff;
+    box-shadow: 0 0 24px rgba(255,77,0,0.7), 0 0 60px rgba(255,77,0,0.3);
+    z-index: 10;
+  }
+
+  .satellite {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(20,10,5,0.9);
+    border: 1.5px solid rgba(255,120,30,0.7);
+    display: flex; align-items: center; justify-content: center;
+    font-family: ui-monospace, monospace;
+    font-size: 11px; font-weight: 600;
+    color: rgba(255,160,60,0.9);
+    box-shadow: 0 0 10px rgba(255,77,0,0.4);
+    z-index: 5;
+    animation: orbit-motion var(--orbit-dur, 5s) linear var(--orbit-delay, 0s) infinite;
+  }
+
+  @keyframes orbit-motion {
+    from { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(var(--orbit-rz, 0deg)) rotateY(0deg) translateX(calc(var(--orbit-w, 130px) / 2)) rotateY(0deg) rotateZ(calc(-1 * var(--orbit-rz, 0deg))) rotateX(-60deg); }
+    to   { transform: translate(-50%, -50%) rotateX(60deg) rotateZ(var(--orbit-rz, 0deg)) rotateY(360deg) translateX(calc(var(--orbit-w, 130px) / 2)) rotateY(-360deg) rotateZ(calc(-1 * var(--orbit-rz, 0deg))) rotateX(-60deg); }
+  }
+
+  /* Lightning bolt glow */
+  .lightning-wrap { width: 160px; height: 180px; }
+  .lightning-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 50% 50%, rgba(255,140,20,0.35) 0%, rgba(255,77,0,0.15) 40%, transparent 70%);
+    animation: bolt-pulse 2.2s ease-in-out infinite;
+    border-radius: 50%;
+  }
+  @keyframes bolt-pulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.12); }
+  }
+  .lightning-bolt {
+    filter: drop-shadow(0 0 18px rgba(255,200,80,0.7)) drop-shadow(0 0 40px rgba(255,77,0,0.4));
+    animation: bolt-flicker 3s ease-in-out infinite;
+  }
+  @keyframes bolt-flicker {
+    0%, 90%, 100% { opacity: 1; }
+    92% { opacity: 0.85; }
+    94% { opacity: 1; }
+    96% { opacity: 0.9; }
+  }
+
+  /* Dot grid */
+  .dot-item {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  }
+  .dot-item.active {
+    background-color: #ff6a00;
+    box-shadow: 0 0 8px rgba(255,106,0,0.8);
+  }
+  .dot-item.inactive {
+    background-color: rgba(255,255,255,0.08);
+  }
+</style>
 
 <script>
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.registerPlugin(ScrollTrigger);
 
+  // ── Reveal animations ───────────────────────────────────────────────────
   const items = document.querySelectorAll('#features .reveal-text, #features .reveal-card');
   items.forEach((item, i) => {
     gsap.from(item, {
-      scrollTrigger: {
-        trigger: item,
-        start: 'top 85%',
-        toggleActions: 'play none none none',
-      },
-      y: 50,
-      opacity: 0,
-      duration: 0.7,
-      delay: i * 0.1,
-      ease: 'power3.out',
+      scrollTrigger: { trigger: item, start: 'top 85%', toggleActions: 'play none none none' },
+      y: 50, opacity: 0, duration: 0.7, delay: i * 0.1, ease: 'power3.out',
     });
   });
-</script>
 
-<script>
-  // 3D tilt handled globally by Layout.astro tilt system
-</script>
+  // ── MOD/01: Supply area chart ────────────────────────────────────────────
+  (function initChart() {
+    const canvas = document.getElementById('supply-chart') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d')!;
 
+    // Supply curve data (normalized 0-1, 20 control points)
+    const rawPts = [0.05, 0.07, 0.08, 0.10, 0.13, 0.15, 0.20, 0.26, 0.30, 0.36,
+                    0.42, 0.50, 0.57, 0.63, 0.70, 0.76, 0.82, 0.87, 0.93, 1.0];
+
+    let progress = 0; // 0-1 draw progress
+    let dotGlow = 0;
+    let raf: number;
+    let started = false;
+
+    function draw() {
+      const W = canvas.offsetWidth;
+      const H = 140;
+      if (canvas.width !== W || canvas.height !== H) {
+        canvas.width = W;
+        canvas.height = H;
+      }
+
+      ctx.clearRect(0, 0, W, H);
+
+      const PAD_X = 24, PAD_Y = 14;
+      const chartW = W - PAD_X * 2;
+      const chartH = H - PAD_Y * 2;
+
+      // Map points to canvas coords
+      const n = rawPts.length;
+      const pts = rawPts.map((v, i) => ({
+        x: PAD_X + (i / (n - 1)) * chartW,
+        y: PAD_Y + chartH - v * chartH,
+      }));
+
+      // Clamp to draw progress
+      const drawCount = Math.max(2, Math.floor(progress * (n - 1)) + 1);
+      const partialPts = pts.slice(0, drawCount);
+      // Interpolate last point
+      if (drawCount < n) {
+        const frac = progress * (n - 1) - (drawCount - 1);
+        const a = pts[drawCount - 1], b = pts[drawCount];
+        partialPts[drawCount - 1] = {
+          x: a.x + (b.x - a.x) * frac,
+          y: a.y + (b.y - a.y) * frac,
+        };
+      }
+      const last = partialPts[partialPts.length - 1];
+
+      // Area fill
+      const grad = ctx.createLinearGradient(0, PAD_Y, 0, PAD_Y + chartH);
+      grad.addColorStop(0, 'rgba(255,100,0,0.28)');
+      grad.addColorStop(1, 'rgba(255,77,0,0.00)');
+      ctx.beginPath();
+      ctx.moveTo(partialPts[0].x, PAD_Y + chartH);
+      ctx.lineTo(partialPts[0].x, partialPts[0].y);
+      for (let i = 1; i < partialPts.length; i++) {
+        const prev = partialPts[i - 1], cur = partialPts[i];
+        const mx = (prev.x + cur.x) / 2;
+        ctx.bezierCurveTo(mx, prev.y, mx, cur.y, cur.x, cur.y);
+      }
+      ctx.lineTo(last.x, PAD_Y + chartH);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Stroke line
+      ctx.beginPath();
+      ctx.moveTo(partialPts[0].x, partialPts[0].y);
+      for (let i = 1; i < partialPts.length; i++) {
+        const prev = partialPts[i - 1], cur = partialPts[i];
+        const mx = (prev.x + cur.x) / 2;
+        ctx.bezierCurveTo(mx, prev.y, mx, cur.y, cur.x, cur.y);
+      }
+      ctx.strokeStyle = 'rgba(255,110,20,0.9)';
+      ctx.lineWidth = 2;
+      ctx.shadowColor = 'rgba(255,100,0,0.8)';
+      ctx.shadowBlur = 8;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Glow dot at start (origin)
+      const ox = partialPts[0].x, oy = partialPts[0].y;
+      const glowR = 6 + Math.sin(dotGlow) * 2;
+      const dotGrad = ctx.createRadialGradient(ox, oy, 0, ox, oy, glowR * 3);
+      dotGrad.addColorStop(0, 'rgba(255,220,120,0.9)');
+      dotGrad.addColorStop(0.4, 'rgba(255,100,0,0.5)');
+      dotGrad.addColorStop(1, 'rgba(255,77,0,0)');
+      ctx.beginPath();
+      ctx.arc(ox, oy, glowR * 3, 0, Math.PI * 2);
+      ctx.fillStyle = dotGrad;
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(ox, oy, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#fff';
+      ctx.shadowColor = 'rgba(255,200,80,1)';
+      ctx.shadowBlur = 10;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    function animate() {
+      progress = Math.min(progress + 0.012, 1);
+      dotGlow += 0.06;
+      draw();
+      if (progress < 1 || true) { // keep running for dot glow
+        raf = requestAnimationFrame(animate);
+      }
+    }
+
+    ScrollTrigger.create({
+      trigger: '#supply-chart',
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        if (!started) { started = true; animate(); }
+      },
+    });
+
+    // Epoch counter
+    let epoch = 142;
+    setInterval(() => {
+      epoch++;
+      const el = document.getElementById('feat-epoch');
+      if (el) el.textContent = String(epoch);
+    }, 2800);
+
+    window.addEventListener('resize', draw);
+  })();
+
+  // ── MOD/02: Dot grid ─────────────────────────────────────────────────────
+  (function initDotGrid() {
+    const grid = document.getElementById('dot-grid');
+    if (!grid) return;
+
+    const COLS = 14, ROWS = 5;
+    const total = COLS * ROWS;
+    const dots: HTMLElement[] = [];
+
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot-item inactive';
+      grid.appendChild(d);
+      dots.push(d);
+    }
+
+    // Pattern: roughly 35% orange dots distributed in a recognizable wave
+    function isActive(row: number, col: number, offset: number): boolean {
+      // Creates a shifting wave of active dots
+      const waveX = (col + offset) % COLS;
+      return waveX < 5 || (row % 2 === 0 && waveX < 7);
+    }
+
+    let offset = 0;
+    let animStarted = false;
+
+    function updateDots() {
+      dots.forEach((d, idx) => {
+        const row = Math.floor(idx / COLS);
+        const col = idx % COLS;
+        const active = isActive(row, col, offset);
+        d.classList.toggle('active', active);
+        d.classList.toggle('inactive', !active);
+      });
+    }
+
+    function startWave() {
+      updateDots();
+      setInterval(() => {
+        offset = (offset + 1) % COLS;
+        updateDots();
+      }, 600);
+    }
+
+    ScrollTrigger.create({
+      trigger: '#dot-grid',
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        if (!animStarted) { animStarted = true; startWave(); }
+      },
+    });
+  })();
+</script>
