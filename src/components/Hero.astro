@@ -14,6 +14,9 @@ import HeroGlobe from './HeroGlobe.astro';
   <!-- Scan line sweep -->
   <div id="scan-line" class="absolute left-0 right-0 h-[2px] pointer-events-none" style="background: linear-gradient(90deg, transparent, rgba(255,77,0,0.35), transparent); top: 0;"></div>
 
+  <!-- Big outlined ZERA backdrop -->
+  <div class="zera-backdrop hidden md:block" style="right: -3vw; bottom: 4vh; font-family: var(--font-display);">ZERA</div>
+
   <!-- HUD corner decorations -->
   <div class="absolute top-24 left-6 pointer-events-none hidden lg:block">
     <div class="w-16 h-16 border-l-2 border-t-2 border-zera-orange/30 rounded-tl-lg"></div>
@@ -29,10 +32,12 @@ import HeroGlobe from './HeroGlobe.astro';
     
     <!-- Left: Text content -->
     <div class="flex-1 text-center lg:text-left max-w-2xl">
-      <!-- Badge -->
-      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-zera-orange/20 mb-8 reveal-item" data-reveal>
-        <span class="w-2 h-2 rounded-full bg-zera-orange animate-pulse shadow-[0_0_8px_rgba(255,77,0,0.8)]"></span>
-        <span class="text-sm font-medium text-white/80 tracking-wide">ZERA Network</span>
+      <!-- Tech pill badge -->
+      <div class="reveal-item mb-8" data-reveal>
+        <span class="tech-pill">
+          <span class="pulse-dot"></span>
+          ZERA Network / V3 Live
+        </span>
       </div>
       <!-- Main Title -->
       <h1 data-3d-text class="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl leading-[1.05] tracking-tight mb-6">
@@ -40,7 +45,7 @@ import HeroGlobe from './HeroGlobe.astro';
           <span class="inline-block hero-word">Community-Governed.</span>
         </span>
         <span class="block hero-line overflow-hidden">
-          <span class="inline-block hero-word gradient-text">Treasury-Supported.</span>
+          <span class="inline-block hero-word tech-italic">Treasury-Supported.</span>
         </span>
       </h1>
       <!-- Subtitle -->
