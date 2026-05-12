@@ -73,7 +73,7 @@
           float val = 0.0;
           float amp = 0.5;
           float freq = 1.0;
-          for (int i = 0; i < 5; i++) {
+          for (int i = 0; i < 6; i++) {
             val += amp * snoise(p * freq);
             freq *= 2.0;
             amp *= 0.5;
@@ -88,32 +88,50 @@
           
           vec2 mouse = uMouse * aspect;
           float mouseDist = length(p - mouse);
-          float mouseInfluence = smoothstep(0.8, 0.0, mouseDist) * 0.3;
-          
+          float mouseInfluence = smoothstep(0.8, 0.0, mouseDist) * 0.4;
+
           float t = uTime * 0.15;
           float n1 = fbm(p * 2.0 + vec2(t, t * 0.7));
           float n2 = fbm(p * 3.0 - vec2(t * 0.5, t));
           float n3 = fbm(p * 1.5 + vec2(t * 0.3, -t * 0.4) + mouseInfluence);
-          
-          float finalNoise = n1 * 0.5 + n2 * 0.3 + n3 * 0.2;
-          
+          float nSurface = fbm(p * 5.5 + vec2(t * 0.6, -t * 0.5) + mouseInfluence * 1.5);
+          float nDeep = fbm(p * 0.7 - vec2(t * 0.04, t * 0.06));
+
+          float finalNoise = n1 * 0.45 + n2 * 0.28 + n3 * 0.17 + nSurface * 0.10;
+
           vec3 orange = vec3(1.0, 0.30, 0.0);
           vec3 amber = vec3(1.0, 0.65, 0.0);
+          vec3 hot = vec3(1.0, 0.48, 0.08);
           vec3 darkOrange = vec3(0.6, 0.15, 0.0);
           vec3 black = vec3(0.012, 0.008, 0.004);
-          
+
           float colorMix = smoothstep(-0.3, 0.6, finalNoise);
-          vec3 color = mix(black, darkOrange, colorMix * 0.4);
-          color = mix(color, orange, smoothstep(0.3, 0.7, finalNoise) * 0.35);
-          color = mix(color, amber, smoothstep(0.5, 0.9, finalNoise + mouseInfluence) * 0.2);
-          
+          vec3 color = mix(black, darkOrange, colorMix * 0.55);
+          color = mix(color, orange, smoothstep(0.3, 0.7, finalNoise) * 0.45);
+          color = mix(color, amber, smoothstep(0.5, 0.9, finalNoise + mouseInfluence) * 0.28);
+          color += hot * max(0.0, nDeep) * 0.18;
+          color += amber * max(0.0, nSurface - 0.35) * 0.18;
+
+          // Volumetric god-ray light shafts
+          float shaftFlicker = 0.55 + 0.45 * sin(t * 0.4);
+          float shaft1 = exp(-pow((p.x - 0.35 * aspect.x) * 7.0, 2.0)) * smoothstep(0.0, 1.2, 1.0 - uv.y);
+          float shaft2 = exp(-pow((p.x - 0.75 * aspect.x) * 9.0, 2.0)) * smoothstep(0.0, 1.2, 1.0 - uv.y);
+          float shaft3 = exp(-pow((p.x - 0.55 * aspect.x) * 11.0, 2.0)) * smoothstep(0.0, 1.2, 1.0 - uv.y);
+          float shafts = (shaft1 * 0.9 + shaft2 * 0.7 + shaft3 * 0.5) * 0.12 * shaftFlicker;
+          color += orange * shafts;
+
+          // Central radial glow
+          float centerGlow = exp(-length(uv - 0.5) * 3.5) * 0.22;
+          color += hot * centerGlow;
+
           float vignette = 1.0 - smoothstep(0.4, 1.2, length(uv - 0.5) * 1.5);
           color *= vignette;
-          
+
           float scrollFade = 1.0 - smoothstep(0.0, 0.3, uScrollProgress);
-          
-          float alpha = smoothstep(-0.5, 0.2, finalNoise) * 0.85 * scrollFade;
-          
+
+          float alpha = smoothstep(-0.5, 0.2, finalNoise) * 0.95 * scrollFade;
+          alpha = max(alpha, shafts * scrollFade * 1.4);
+
           gl_FragColor = vec4(color, alpha);
         }
       `;
