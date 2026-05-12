@@ -12,7 +12,8 @@
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
-  const particleCount = 200;
+  const isMobileBG = window.innerWidth <= 640;
+  const particleCount = isMobileBG ? 180 : 400;
   const positions = new Float32Array(particleCount * 3);
   const colors = new Float32Array(particleCount * 3);
   const sizes = new Float32Array(particleCount);
@@ -23,9 +24,9 @@
   const colorDim = new THREE.Color('#ff2200');
 
   for (let i = 0; i < particleCount; i++) {
-    positions[i * 3]     = (Math.random() - 0.5) * 26;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 26;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 12;
+    positions[i * 3]     = (Math.random() - 0.5) * 32;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 32;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 14;
 
     const t = Math.random();
     const mixedColor = t < 0.5
@@ -53,7 +54,7 @@
     size: 0.055,
     vertexColors: true,
     transparent: true,
-    opacity: 0.75,
+    opacity: 0.65,
     blending: THREE.AdditiveBlending,
     sizeAttenuation: true,
     depthWrite: false,
@@ -64,7 +65,7 @@
 
   // Connection lines
   const lineGeometry = new THREE.BufferGeometry();
-  const maxLines = 300;
+  const maxLines = isMobileBG ? 200 : 500;
   const linePositions = new Float32Array(maxLines * 6);
   const lineColors = new Float32Array(maxLines * 6);
   lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
@@ -95,7 +96,7 @@
   });
 
   const clock = new THREE.Clock();
-  const connectionDist = 2.6;
+  const connectionDist = 2.2;
 
   function updateConnections() {
     let lineIdx = 0;
@@ -144,7 +145,7 @@
   const canvasObs = new IntersectionObserver((entries) => {
     canvasVisible = entries[0].isIntersecting;
   }, { threshold: 0 });
-  canvasObs.observe(canvas);
+  canvasObs.observe(renderer.domElement);
 
   function animate() {
     requestAnimationFrame(animate);
@@ -163,10 +164,10 @@
       pos[i * 3 + 1] += velocities[i][1];
       pos[i * 3 + 2] += velocities[i][2];
 
-      if (pos[i * 3] > 13)  pos[i * 3] = -13;
-      if (pos[i * 3] < -13) pos[i * 3] = 13;
-      if (pos[i * 3 + 1] > 13)  pos[i * 3 + 1] = -13;
-      if (pos[i * 3 + 1] < -13) pos[i * 3 + 1] = 13;
+      if (pos[i * 3] > 16)  pos[i * 3] = -16;
+      if (pos[i * 3] < -16) pos[i * 3] = 16;
+      if (pos[i * 3 + 1] > 16)  pos[i * 3 + 1] = -16;
+      if (pos[i * 3 + 1] < -16) pos[i * 3 + 1] = 16;
     }
     geometry.attributes.position.needsUpdate = true;
 
