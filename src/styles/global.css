@@ -305,9 +305,9 @@ html, body {
   50% { opacity: 0.3; }
 }
 
-/* HUD corner brackets — wrap around hero/sections */
+/* HUD corner brackets — fixed to viewport, always visible */
 .hud-corner {
-  position: absolute;
+  position: fixed;
   font-family: ui-monospace, 'Menlo', 'Consolas', monospace;
   font-size: 10px;
   letter-spacing: 0.1em;

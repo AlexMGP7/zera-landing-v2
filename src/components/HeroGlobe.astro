@@ -322,12 +322,13 @@
 
     // ── Resize ───────────────────────────────────────────────────────────
     function resize() {
-      const size = wrap!.clientWidth;
+      const size = wrap!.offsetWidth || 440;
       renderer.setSize(size, size, false);
       camera.aspect = 1;
       camera.updateProjectionMatrix();
     }
-    resize();
+    // Defer first resize to ensure layout is complete
+    requestAnimationFrame(resize);
     window.addEventListener('resize', resize);
 
     // ── Mouse interaction ────────────────────────────────────────────────
@@ -378,9 +379,10 @@
         p.mesh.position.set(x, y, z2);
       }
 
-      // Coin sprite gentle bob
-      if (coinSprite) {
-        coinSprite.position.y = Math.sin(t * 1.2) * 0.06;
+      // Coin gentle bob
+      const cm = (coinGroup as any).coinMesh;
+      if (cm) {
+        coinGroup.position.y = Math.sin(t * 1.2) * 0.06;
       }
 
       renderer.render(scene, camera);
