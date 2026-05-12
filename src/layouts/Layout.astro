@@ -109,6 +109,34 @@ const {
   <!-- Mouse spotlight -->
   <div id="mouse-spotlight" class="fixed inset-0 z-[55] pointer-events-none opacity-0 transition-opacity duration-500" style="background: radial-gradient(900px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,77,0,0.10), transparent 45%);"></div>
 
+  <!-- HUD overlay: tech corner brackets with live data -->
+  <div class="hud-corner hidden md:block fixed top-24 left-8">
+    <div>SYS.VIEW <span class="hud-accent">// ACTIVE</span></div>
+    <div>NODES <span class="hud-key">2,409</span> / CONN <span class="hud-key">AUTO</span></div>
+  </div>
+  <div class="hud-corner hidden md:block fixed top-24 right-8 text-right">
+    <div>NETWORK <span class="hud-accent">ZERA · V3</span></div>
+    <div>BLOCK <span class="hud-key" id="hud-block">#8,492,110</span></div>
+  </div>
+  <div class="hud-corner hidden md:block fixed bottom-6 left-8">
+    <div>UPTIME <span class="hud-key">99.997%</span></div>
+    <div>TPS <span class="hud-accent">3,128</span></div>
+  </div>
+  <div class="hud-corner hidden md:block fixed bottom-6 right-8 text-right">
+    <div>SCROLL <span class="hud-accent">↓</span></div>
+    <div>COORDS <span class="hud-key">40.7128°N · 74.0060°W</span></div>
+  </div>
+
+  <script>
+    // HUD block ticker — increments every 1.4s for a "live network" feel
+    let block = 8492110;
+    setInterval(() => {
+      block += Math.floor(1 + Math.random() * 3);
+      const el = document.getElementById('hud-block');
+      if (el) el.textContent = '#' + block.toLocaleString();
+    }, 1400);
+  </script>
+
 
   <slot />
   
@@ -304,6 +332,17 @@ const {
       // Init on all tilt cards
       document.querySelectorAll('[data-tilt]').forEach((el) => {
         initTilt(el as HTMLElement);
+      });
+
+      // Mouse-tracked glow for .tech-card — sets --mx / --my CSS vars
+      document.querySelectorAll<HTMLElement>('.tech-card').forEach((card) => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          card.style.setProperty('--mx', x + '%');
+          card.style.setProperty('--my', y + '%');
+        }, { passive: true });
       });
     })();
   </script>

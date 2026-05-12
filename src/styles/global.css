@@ -247,3 +247,210 @@ html, body {
 .animate-pulse-slow {
   animation: pulse-slow 3s ease-in-out infinite;
 }
+
+/* ── Tech HUD aesthetic (inspired by reference) ───────────────────────────── */
+
+/* Section eyebrow: "01 / Section Name" with horizontal accent line */
+.section-eyebrow {
+  font-family: ui-monospace, 'Menlo', 'Consolas', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--color-zera-orange);
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.section-eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--color-zera-orange);
+  flex-shrink: 0;
+}
+
+/* Italic accent inside h2 titles */
+.tech-italic {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-zera-orange);
+}
+
+/* Pulsing pill badge */
+.tech-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-family: ui-monospace, 'Menlo', 'Consolas', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 77, 0, 0.35);
+  color: var(--color-zera-orange);
+  background: rgba(255, 77, 0, 0.06);
+}
+.tech-pill .pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-zera-orange);
+  box-shadow: 0 0 8px var(--color-zera-orange);
+  animation: tech-pulse 1.6s infinite;
+}
+@keyframes tech-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* HUD corner brackets — wrap around hero/sections */
+.hud-corner {
+  position: absolute;
+  font-family: ui-monospace, 'Menlo', 'Consolas', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(168, 163, 154, 0.7);
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 20;
+  line-height: 1.6;
+}
+.hud-corner .hud-key { color: rgba(255, 255, 255, 0.85); }
+.hud-corner .hud-accent { color: var(--color-zera-orange); }
+@media (max-width: 768px) {
+  .hud-corner { display: none; }
+}
+
+/* Big outlined ZERA backdrop text */
+.zera-backdrop {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+  font-size: clamp(180px, 22vw, 360px);
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.05);
+  z-index: 1;
+}
+
+/* Marquee scroller */
+.tech-marquee {
+  overflow: hidden;
+  background: rgba(4, 4, 4, 0.85);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 6;
+}
+.tech-marquee-track {
+  display: inline-flex;
+  gap: 48px;
+  padding: 22px 0;
+  animation: tech-scroll 38s linear infinite;
+  white-space: nowrap;
+  font-family: ui-monospace, 'Menlo', 'Consolas', monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(168, 163, 154, 0.7);
+}
+.tech-marquee-track .dot { color: var(--color-zera-orange); }
+@keyframes tech-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Enhanced tech-card: scan-line sweep, corner brackets, mouse-tracked glow */
+.tech-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1),
+              border-color 0.3s ease,
+              box-shadow 0.4s ease;
+}
+.tech-card::before {
+  /* Mouse-tracked radial glow */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    280px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 77, 0, 0.16),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.tech-card:hover::before { opacity: 1; }
+.tech-card::after {
+  /* Scan-line sweep on hover */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 77, 0, 0.12) 50%,
+    transparent 100%
+  );
+  transition: left 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+.tech-card:hover::after { left: 130%; }
+.tech-card:hover {
+  border-color: rgba(255, 77, 0, 0.45) !important;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(255, 77, 0, 0.18);
+}
+.tech-card > * { position: relative; z-index: 1; }
+
+/* Corner brackets on cards (top-left + bottom-right) */
+.tech-corners::before,
+.tech-corners::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(255, 77, 0, 0.5);
+  transition: border-color 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.tech-corners::before {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+.tech-corners::after {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+.tech-corners:hover::before,
+.tech-corners:hover::after {
+  border-color: var(--color-zera-orange);
+}
+
+/* HUD module label "MODULE 01" */
+.tech-module-label {
+  font-family: ui-monospace, 'Menlo', 'Consolas', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--color-zera-orange);
+  text-transform: uppercase;
+  opacity: 0.7;
+}
